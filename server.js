@@ -145,7 +145,7 @@ const server = http.createServer((req, res) => {
 
     if (ext === '.html') {
       let html = fs.readFileSync(filePath, 'utf8');
-      if (publicAnonKey && !publicAnonKey.includes('your-anon-key')) {
+      if (publicUrl) {
         const injectedConfig = `<script>window.__HABITFLOW_CONFIG__ = Object.assign(window.__HABITFLOW_CONFIG__ || {}, ${JSON.stringify({ supabaseUrl: publicUrl, supabaseAnonKey: publicAnonKey })});</script>`;
         if (html.includes('</head>')) {
           html = html.replace('</head>', `  ${injectedConfig}\n</head>`);

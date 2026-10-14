@@ -20,8 +20,8 @@ const DEFAULT_CONFIG = {
 const windowConfig = (typeof window !== 'undefined' && window.__HABITFLOW_CONFIG__) || {};
 
 export const CONFIG = {
-  supabaseUrl: windowConfig.supabaseUrl || DEFAULT_CONFIG.supabaseUrl,
-  supabaseAnonKey: windowConfig.supabaseAnonKey || DEFAULT_CONFIG.supabaseAnonKey,
+  supabaseUrl: windowConfig.supabaseUrl || windowConfig.VITE_SUPABASE_URL || DEFAULT_CONFIG.supabaseUrl,
+  supabaseAnonKey: windowConfig.supabaseAnonKey || windowConfig.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_CONFIG.supabaseAnonKey,
   appName: DEFAULT_CONFIG.appName,
   version: DEFAULT_CONFIG.version,
   

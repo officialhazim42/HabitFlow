@@ -7,8 +7,8 @@
     "start": "node server.js",
     "build": "node build.js",
     "deploy": "npm run build && wrangler deploy",
-    "test": "node test_suite.js && node verify_pwa.js && node verify_supabase_integration.js",
-    "test:all": "node test_suite.js && node verify_pwa.js && node verify_dashboard_logic.js && node verify_full_integration.js && node verify_advanced_features.js && node test_interactive_guide.js && node verify_supabase_integration.js",
+    "test": "node test_suite.js && node verify_pwa.js && node verify_supabase_integration.js && node verify_auth_dom.js && node verify_auth_and_database_isolation.js",
+    "test:all": "node test_suite.js && node verify_pwa.js && node verify_dashboard_logic.js && node verify_full_integration.js && node verify_advanced_features.js && node test_interactive_guide.js && node verify_supabase_integration.js && node verify_auth_dom.js && node verify_auth_and_database_isolation.js",
     "icons": "node generate_pwa_icons.js"
   },
   "keywords": [
