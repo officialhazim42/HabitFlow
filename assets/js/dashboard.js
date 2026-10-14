@@ -254,31 +254,47 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export async function initDashboard() {
-  const supabase = getSupabase();
-  if (!supabase) {
-    console.error('Supabase client could not be initialized');
-    window.location.replace('habitflow_auth.html');
-    return;
-  }
+  const urlParams = new URLSearchParams(window.location.search);
+  const isDemo = urlParams.get('demo') === 'true' || localStorage.getItem('habitflow_demo_mode') === 'true';
 
-  try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error || !session || !session.user) {
+  const supabase = getSupabase();
+  if (isDemo) {
+    currentUser = {
+      id: 'demo-user-123',
+      email: 'alex.johnson@example.com',
+      user_metadata: { full_name: 'Alex Johnson' }
+    };
+    currentProfile = {
+      id: 'demo-user-123',
+      full_name: 'Alex Johnson',
+      has_onboarded: true
+    };
+  } else {
+    if (!supabase) {
+      console.error('Supabase client could not be initialized');
       window.location.replace('habitflow_auth.html');
       return;
     }
-    currentUser = session.user;
-  } catch (err) {
-    console.error('Session validation error:', err);
-    window.location.replace('habitflow_auth.html');
-    return;
-  }
 
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_OUT' || !session) {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error || !session || !session.user) {
+        window.location.replace('habitflow_auth.html');
+        return;
+      }
+      currentUser = session.user;
+    } catch (err) {
+      console.error('Session validation error:', err);
       window.location.replace('habitflow_auth.html');
+      return;
     }
-  });
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || !session) {
+        window.location.replace('habitflow_auth.html');
+      }
+    });
+  }
 
   await fetchUserProfile();
   bindNavigationSystem();
@@ -293,6 +309,51 @@ export async function initDashboard() {
   bindDataExport();
   await loadHabitsAndCompletions();
   startReminderWorker();
+
+  // Handle preview actions for screenshot capture or demonstration
+  const openTarget = urlParams.get('open');
+  if (openTarget === 'preferences') {
+    const prefModal = document.getElementById('preferencesModal');
+    if (prefModal) prefModal.classList.add('is-open');
+  } else if (openTarget === 'add-habit') {
+    const habitModal = document.getElementById('habitModal');
+    if (habitModal) {
+      habitModal.classList.add('is-open');
+      const title = document.getElementById('habitModalTitle');
+      if (title) title.textContent = 'Add New Daily Habit';
+    }
+  } else if (openTarget === 'reminders') {
+    const remModal = document.getElementById('remindersModal');
+    if (remModal) remModal.classList.add('is-open');
+  }
+
+  const focusTarget = urlParams.get('focus');
+  if (focusTarget) {
+    const hero = document.querySelector('.dash-welcome-hero');
+    const stats = document.getElementById('statsGrid');
+    const banner = document.getElementById('weeklyReviewBanner');
+    const habits = document.getElementById('habitsSection');
+    const cal = document.getElementById('calendarSection');
+
+    if (focusTarget === 'habits') {
+      if (hero) hero.style.display = 'none';
+      if (stats) stats.style.display = 'none';
+      if (banner) banner.style.display = 'none';
+    } else if (focusTarget === 'calendar') {
+      if (hero) hero.style.display = 'none';
+      if (stats) stats.style.display = 'none';
+      if (banner) banner.style.display = 'none';
+      if (habits) habits.style.display = 'none';
+      const analytics = document.getElementById('analyticsSection');
+      if (analytics) analytics.style.display = 'none';
+    } else if (focusTarget === 'analytics') {
+      if (hero) hero.style.display = 'none';
+      if (stats) stats.style.display = 'none';
+      if (banner) banner.style.display = 'none';
+      if (habits) habits.style.display = 'none';
+      if (cal) cal.style.display = 'none';
+    }
+  }
 }
 
 /**
@@ -388,14 +449,14 @@ async function ensurePredefinedHabits() {
 
   const seededKey = `habitflow_starter_seeded_${currentUser.id}`;
   const deletedKey = `habitflow_deleted_habits_${currentUser.id}`;
-  let hasSeeded = currentProfile?.has_onboarded || localStorage.getItem(seededKey) === 'true';
+  let hasSeeded = (currentProfile?.has_onboarded && userHabits.length > 0) || (localStorage.getItem(seededKey) === 'true' && userHabits.length > 0);
 
   if (userHabits.length > 0) {
     hasSeeded = true;
     localStorage.setItem(seededKey, 'true');
   }
 
-  if (hasSeeded) {
+  if (hasSeeded && userHabits.length > 0) {
     sortUserHabits();
     return false;
   }
@@ -614,6 +675,25 @@ async function loadHabitCompletions() {
       const cachedComp = localStorage.getItem(`habitflow_user_completions_${currentUser.id}`);
       if (cachedComp) {
         habitCompletions = JSON.parse(cachedComp) || [];
+      } else if (currentUser.id === 'demo-user-123' && userHabits.length > 0) {
+        const demoCompletions = [];
+        const today = new Date();
+        for (let i = 0; i <= 5; i++) {
+          const d = new Date();
+          d.setDate(today.getDate() - i);
+          const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+          const count = i === 0 ? 6 : (i % 2 === 0 ? 7 : 5);
+          userHabits.slice(0, count).forEach(h => {
+            demoCompletions.push({
+              id: `demo-comp-${h.id}-${iso}`,
+              habit_id: h.id,
+              user_id: currentUser.id,
+              completed_date: iso
+            });
+          });
+        }
+        habitCompletions = demoCompletions;
+        localStorage.setItem(`habitflow_user_completions_${currentUser.id}`, JSON.stringify(demoCompletions));
       }
     } catch (e) {}
   }
@@ -627,6 +707,17 @@ export async function loadDailyReflections() {
     const cached = localStorage.getItem(`habitflow_reflections_${currentUser.id}`);
     if (cached) {
       dailyReflections = JSON.parse(cached) || [];
+    } else if (currentUser.id === 'demo-user-123') {
+      const todayIso = getTodayIso();
+      dailyReflections = [{
+        id: 'demo-refl-1',
+        user_id: currentUser.id,
+        reflection_date: todayIso,
+        went_well: 'Maintained strong focus during deep work sessions and completed all morning physical exercises.',
+        struggled_with: 'Late afternoon screen fatigue; need to remember short 5-minute movement breaks.',
+        improvement: 'Block out 20 minutes for screen-free reading before bedtime.'
+      }];
+      localStorage.setItem(`habitflow_reflections_${currentUser.id}`, JSON.stringify(dailyReflections));
     }
   } catch (e) {}
 

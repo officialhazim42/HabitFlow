@@ -1,49 +1,158 @@
-# HabitFlow — Progressive Web App Habit Tracker
+<div align="center">
 
-A modern, responsive, and privacy-first habit tracking Progressive Web App (PWA) built with vanilla JavaScript, modern CSS, and Supabase. HabitFlow features daily routine tracking, schedule-aware streaks, weekly analytics, daily reflections, multi-platform PWA installation, and comprehensive user authentication.
+<img src="assets/icons/icon-192.png" alt="HabitFlow Logo" width="88" height="88" style="border-radius: 22px;" />
 
-Created by **Hazim Bashir (حازم بشیر)** — `@officialhazim42`.
+# HabitFlow
+
+### Build Better Habits. Track Your Progress. Stay Consistent.
+
+A modern, responsive, and privacy-first Progressive Web App (PWA) designed to organize daily routines, track completion consistency, visualize progress analytics, and maintain mindfulness reflections.
+
+[![Frontend](https://img.shields.io/badge/Frontend-Vanilla%20JS%20%7C%20HTML5%20%7C%20CSS3-10B981?style=flat-square)](#technology-stack)
+[![Database](https://img.shields.io/badge/Database-Supabase%20PostgreSQL-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](#environment-configuration)
+[![PWA](https://img.shields.io/badge/PWA-Installable%20%28Desktop%2C%20Android%2C%20iOS%29-0B1220?style=flat-square)](#features)
+[![Deployment](https://img.shields.io/badge/Deployment-Cloudflare%20Workers%20Static%20Assets-F38020?style=flat-square&logo=cloudflare&logoColor=white)](#deployment)
+
+</div>
 
 ---
 
-## Key Features
+## Overview
 
-- **Progressive Web App (PWA) Support**:
-  - Installable on **Desktop** (Chrome, Edge, Brave), **Android** (Chrome, Samsung Internet), and **iPhone & iPad** (Safari Add to Home Screen).
-  - Offline-first Service Worker caching static assets and pages.
-  - Interactive, multi-platform installation guide with back navigation and modal controls.
-  - Web App Manifest configured with adaptive maskable icons.
-- **Habit Tracking & Management**:
-  - 9 pre-configured starter habits provisioned automatically for new accounts.
-  - Create, edit, and archive custom habits with target daily goals and customizable schedules.
-  - Schedule-aware streak calculation preserving momentum across non-scheduled days.
-  - Real-time search, filter pills, and sorting controls.
-- **Analytics & Reflections**:
-  - Weekly momentum review and completion rate visualizations.
-  - Interactive calendar completion drawer and history logs.
-  - Daily reflections modal for mindfulness notes and evening reviews.
-  - One-click data export in both JSON and CSV formats.
-- **Enterprise-Grade Security & Authentication**:
-  - Powered by Supabase Auth with Row Level Security (RLS) PostgreSQL policies.
-  - Email & Password authentication with real-time validation and strength indicators.
-  - Social OAuth integration supporting Google and Facebook.
-  - 3-step secure password recovery flow.
-  - Zero hardcoded secrets; frontend uses strictly public anonymous tokens.
-- **Design System & Craftsmanship**:
-  - Signature dark SaaS palette: Deep Navy (`#0b1220`, `#111b2b`, `#162235`) with emerald green accents (`#9be15d`, `#63d6bd`).
-  - Strict zero-emoji compliance using crisp, scalable inline Lucide-style SVGs.
-  - Responsive layouts tailored for mobile, tablet, and widescreen desktop monitors.
-  - Interactive About Developer modal highlighting Hazim Bashir (حازم بشیر) with 10 social platform links.
+**HabitFlow** is an offline-capable habit tracker that combines structured daily discipline with actionable analytics. Whether starting with preconfigured morning routines or crafting tailored productivity workflows, HabitFlow equips you with schedule-aware streak tracking, completion heatmaps, evening reflections, and multi-platform PWA installation across desktop and mobile devices.
+
+The application operates with zero build compilation dependencies, relying entirely on modern ES6+ JavaScript modules, custom CSS variables, and Supabase Row Level Security (RLS) database policies.
+
+---
+
+## Screenshots
+
+### 1. Authentication & Overview
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>Authentication Portal</b><br />
+      <sub>Email/password validation, Google OAuth, Facebook OAuth, and password recovery</sub>
+    </td>
+    <td width="50%" align="center">
+      <b>Main Dashboard</b><br />
+      <sub>Personalized greeting, today's completion ring, streak count, and momentum card</sub>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="screenshots/01-login-auth.png" alt="HabitFlow Authentication Portal with Google and Facebook OAuth" width="100%" />
+    </td>
+    <td>
+      <img src="screenshots/02-main-dashboard.png" alt="HabitFlow Main Dashboard Overview with personalized greeting and progress metrics" width="100%" />
+    </td>
+  </tr>
+</table>
+
+### 2. Routine Execution & Calendar Matrix
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>Daily Habits Checklist</b><br />
+      <sub>Category filter pills, real-time search, sort controls, and 7-day mini trackers</sub>
+    </td>
+    <td width="50%" align="center">
+      <b>Calendar & Habit History</b><br />
+      <sub>Interactive monthly matrix with completion dots and detailed daily inspection drawer</sub>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="screenshots/03-daily-habits.png" alt="HabitFlow Daily Habits Checklist showing category pills, search bar, and routine cards" width="100%" />
+    </td>
+    <td>
+      <img src="screenshots/04-calendar-history.png" alt="HabitFlow Calendar Matrix and Completion Day Details drawer" width="100%" />
+    </td>
+  </tr>
+</table>
+
+### 3. Analytics, Preferences & Management
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>Statistics & Analytics</b><br />
+      <sub>7-day completion trend chart, weekly review banner, and performance highlights</sub>
+    </td>
+    <td width="50%" align="center">
+      <b>Preferences & Appearance</b><br />
+      <sub>Theme selection (Dark, Light, System), 6 accent swatches, and notification controls</sub>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="screenshots/05-statistics-analytics.png" alt="HabitFlow Statistics and Analytics Trend Chart with Performance Highlights" width="100%" />
+    </td>
+    <td>
+      <img src="screenshots/06-preferences-appearance.png" alt="HabitFlow Preferences and Appearance modal with theme selection and color picker" width="100%" />
+    </td>
+  </tr>
+</table>
+
+<div align="center">
+  <b>Habit Management & Scheduling</b><br />
+  <sub>Create and customize routines with target quantities, custom active days, and reminder alarms</sub>
+  <br /><br />
+  <img src="screenshots/07-habit-management.png" alt="HabitFlow Add and Edit Habit Modal with schedule days and reminder time input" width="70%" />
+</div>
+
+---
+
+## Features
+
+- **Authentication & Account Security**:
+  - Secure Email and Password authentication powered by Supabase.
+  - Social OAuth sign-in supporting Google and Facebook.
+  - 3-step secure password recovery and reset workflow.
+  - Strict client-side credential separation using public anonymous keys and PostgreSQL Row Level Security (RLS).
+- **Habit Tracking & Daily Execution**:
+  - 9 preconfigured starter habits provisioned automatically upon initial sign-up.
+  - Custom habit creation with target quantities, descriptions, and category tags.
+  - Customizable frequencies: Every day, Weekdays (Mon-Fri), Weekends (Sat-Sun), or Custom Day selection.
+  - Schedule-aware streak calculation preserving momentum across planned rest days.
+  - Fast search, category filter pills, status toggles (All, Remaining, Completed), and sorting.
+- **Calendar & Completion History**:
+  - Interactive monthly calendar matrix with completion status indicators.
+  - Day Details inspection drawer displaying exact habits completed and reflections recorded for any chosen date.
+- **Analytics & Weekly Review**:
+  - Dynamic 7-day completion trend visualization.
+  - Weekly review insights calculating completion consistency and identifying routines requiring focus.
+  - Performance highlights tracking lifetime check-ins and top routines.
+- **Daily Mindfulness Reflections**:
+  - Dedicated daily reflection modal capturing wins, challenges, and tomorrow's improvements.
+- **Personalization & Accessibility**:
+  - Theme switching: Dark Mode, Light Mode, and System Preference.
+  - 6 curated accent color palettes: Emerald, Teal, Sapphire, Violet, Amber, and Coral.
+  - Regional customization: Timezone detection and Week Start Day configuration.
+  - Clean typography using Google Fonts (Inter) and custom inline Lucide-style SVG icons with strict zero emojis.
+- **Progressive Web App (PWA)**:
+  - Installable standalone application for Windows, macOS, Android, and iOS.
+  - Service Worker providing asset caching and offline resilience.
+  - Interactive multi-platform installation guide with step-by-step instructions for Desktop, Android, and iOS Safari.
+- **Data Export & Portability**:
+  - One-click client-side export in JSON and CSV formats.
 
 ---
 
 ## Technology Stack
 
-- **Frontend**: Vanilla JavaScript (ES6+ Modules), HTML5 Semantic Architecture, Vanilla CSS (CSS Variables, Flexbox, Grid).
-- **Icons**: Custom inline SVG icons (Lucide-inspired).
-- **Backend & Database**: [Supabase](https://supabase.com/) (PostgreSQL, Row Level Security, Auth GoTrue).
-- **PWA & Offline**: W3C Web App Manifest (`manifest.webmanifest`), Service Worker API (`Cache-First` / `Network-First` strategy).
-- **Local Server**: Lightweight, zero-dependency Node.js HTTP server (`server.js`).
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend Core** | Vanilla JavaScript (ES6+ Modules), HTML5 Semantic Architecture |
+| **Styling & Design** | Modern Vanilla CSS, CSS Variables, Flexbox, CSS Grid |
+| **Icons & Media** | Custom inline SVG icons (Lucide-inspired design system) |
+| **Backend & Auth** | [Supabase](https://supabase.com/) (PostgreSQL, Row Level Security, GoTrue Auth) |
+| **PWA & Offline** | W3C Web App Manifest (`manifest.webmanifest`), Service Worker API |
+| **Local Server** | Zero-dependency Node.js HTTP server (`server.js`) |
+| **Production Bundler** | Production isolation build script (`build.js`) |
+| **Cloud Deployment** | Cloudflare Workers Static Assets (`wrangler.jsonc`, Wrangler CLI) |
 
 ---
 
@@ -51,27 +160,38 @@ Created by **Hazim Bashir (حازم بشیر)** — `@officialhazim42`.
 
 ```
 HabitFlow/
-├── index.html                  # Root router checking auth sessions
-├── habitflow_auth.html         # Login, Registration, and OAuth portal
-├── dashboard.html              # Main habit dashboard, analytics, reflections
-├── reset-password.html         # Secure password recovery interface
-├── server.js                   # Development HTTP server with API endpoints
+├── index.html                  # Root landing page and authentication session router
+├── habitflow_auth.html         # Login, registration, and social OAuth portal
+├── dashboard.html              # Main user dashboard, habit checklists, and calendar
+├── reset-password.html         # Dedicated password recovery and token update interface
+├── server.js                   # Zero-dependency local Node.js development server
+├── build.js                    # Production asset isolation script (outputs to ./dist)
+├── wrangler.jsonc              # Cloudflare Workers Static Assets configuration
 ├── package.json                # Project scripts, metadata, and dependencies
-├── .gitignore                  # Git exclusion rules for secrets and build artifacts
-├── .env.example                # Configuration template with placeholder credentials
+├── .gitignore                  # Git exclusion rules for secrets, node_modules, and cache
+├── .env.example                # Environment variable template with placeholder keys
 ├── manifest.webmanifest        # PWA Web App Manifest
-├── manifest.json               # Manifest fallback alias
-├── sw.js                       # Service Worker for offline caching
-├── generate_pwa_icons.js       # Script generating standard and maskable app icons
-├── README.md                   # Documentation and deployment manual
+├── manifest.json               # Secondary PWA manifest alias
+├── sw.js                       # Service Worker implementing Cache-First offline strategy
+├── generate_pwa_icons.js       # Vector-to-raster generator for app icons
+├── capture_all_screenshots.js  # Automated headless screenshot capture suite
+├── README.md                   # Project documentation and visual showcase
+├── screenshots/                # Showcase application screenshots
+│   ├── 01-login-auth.png
+│   ├── 02-main-dashboard.png
+│   ├── 03-daily-habits.png
+│   ├── 04-calendar-history.png
+│   ├── 05-statistics-analytics.png
+│   ├── 06-preferences-appearance.png
+│   └── 07-habit-management.png
 ├── assets/
 │   ├── css/
-│   │   ├── styles.css          # Design tokens, global PWA modal system, toasts
-│   │   ├── auth.css            # Authentication form layouts and responsive styles
+│   │   ├── styles.css          # Design system tokens, toasts, and global PWA modal
+│   │   ├── auth.css            # Authentication form layouts and responsive shell
 │   │   ├── dashboard.css       # Habit cards, analytics charts, calendar drawer
 │   │   └── developer-modal.css # Developer profile modal and social links grid
 │   ├── js/
-│   │   ├── config.js           # Runtime configuration and credential manager
+│   │   ├── config.js           # Runtime environment and client credential manager
 │   │   ├── supabase-client.js  # Supabase client initialization & OAuth handlers
 │   │   ├── auth.js             # Authentication form lifecycle controller
 │   │   ├── dashboard.js        # Habit CRUD, completions, reflections, and stats
@@ -90,131 +210,102 @@ HabitFlow/
 
 ---
 
-## Getting Started
+## Installation & Local Development
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (version 16 or newer recommended)
+- [Node.js](https://nodejs.org/) (version 18 or newer recommended)
 - A modern web browser (Google Chrome, Microsoft Edge, Safari, or Mozilla Firefox)
 
-### Installation & Local Run
+### Setup Instructions
 
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/officialhazim42/HabitFlow.git
    cd HabitFlow
    ```
 
-2. Start the local development server:
+2. **Install development dependencies**:
    ```bash
-   npm start
-   # or: node server.js
+   npm install
    ```
 
-3. Open your browser and navigate to:
+3. **Configure environment variables**:
+   ```bash
+   cp .env.example .env
    ```
-   http://localhost:3000/
+   Provide your Supabase URL and public Anonymous Key in `.env` (or configure them directly in-app using the Developer Setup banner).
+
+4. **Start the local development server**:
+   ```bash
+   npm start
    ```
+   Open your browser at `http://localhost:3000/`.
+
+5. **Run automated test suites**:
+   ```bash
+   # Run core test suite and PWA verification
+   npm test
+
+   # Run all regression and integration suites
+   npm run test:all
+   ```
+
+6. **Build for production**:
+   ```bash
+   npm run build
+   ```
+   This generates the isolated distribution in `./dist`, verifying that all assets are within size limits and excluding development tooling.
 
 ---
 
-## Environment & Supabase Setup
+## Environment Configuration
 
-HabitFlow works immediately with client-side credential configuration or environment variables.
+HabitFlow requires connection to a Supabase project for live multi-device authentication and database persistence.
 
-### 1. Configure Supabase Project
-
-1. Create a free project at [Supabase](https://supabase.com/).
-2. In the Supabase Dashboard, open the **SQL Editor**, paste the contents of `supabase/schema.sql`, and run the script. This provisions:
-   - `profiles`, `habits`, and `habit_completions` tables.
-   - Strict Row Level Security (RLS) guaranteeing user data privacy.
-   - Triggers for automatic user profile initialization.
-3. Retrieve your **Project URL** and **Anon Public Key** from **Project Settings → API**.
-
-### 2. Configure Credentials
-
-Copy `.env.example` to `.env` or connect via the in-app Developer Connection banner:
-```bash
-cp .env.example .env
-```
+### Required Variables (`.env`)
 
 ```ini
+# Supabase Project URL (from Project Settings -> API)
 SUPABASE_URL="https://your-project-id.supabase.co"
+
+# Supabase Public Anonymous Key (safe for frontend client use)
 SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your-anon-key-here"
+
+# OAuth Callback URL (Defaults to window.location.origin)
 AUTH_REDIRECT_URL="http://localhost:3000/dashboard.html"
 ```
 
-> **Security Note**: Never expose your `SUPABASE_SERVICE_ROLE_KEY` in frontend code. HabitFlow operates entirely with the public anonymous key protected by database-level RLS policies.
-
-### 3. OAuth Provider Setup (Optional)
-
-- **Google OAuth**:
-  - In Google Cloud Console, create an OAuth 2.0 Web Client.
-  - Set Authorized redirect URI: `https://<your-supabase-project-id>.supabase.co/auth/v1/callback`
-  - In Supabase Dashboard (**Authentication → Providers → Google**), paste Client ID and Secret.
-- **Facebook OAuth**:
-  - In Meta for Developers, create an app and add Facebook Login.
-  - Set Valid OAuth Redirect URI: `https://<your-supabase-project-id>.supabase.co/auth/v1/callback`
-  - In Supabase Dashboard (**Authentication → Providers → Facebook**), paste App ID and Secret.
+> **Security Guarantee**: Never include `SUPABASE_SERVICE_ROLE_KEY` or OAuth client secrets in frontend code or repository files. HabitFlow operates exclusively using public tokens safeguarded by Row Level Security (RLS) policies defined in `supabase/schema.sql`.
 
 ---
 
-## Verification & Testing
+## Deployment
 
-The project includes automated regression test suites covering PWA behavior, authentication safety, DOM interactions, and dashboard logic.
+### Cloudflare Workers Static Assets
 
-Run the test suite:
-```bash
-# Run core test suite and PWA verification
-npm test
+HabitFlow is preconfigured for deployment on Cloudflare Workers Static Assets:
 
-# Run all verification suites
-npm run test:all
-```
+1. **Configuration**: Configured via `wrangler.jsonc` pointing `"assets": { "directory": "./dist" }`.
+2. **Build & Deploy**:
+   ```bash
+   npm run deploy
+   ```
+   *(Executes `npm run build` followed by `wrangler deploy` to publish `./dist` globally.)*
 
-Verification test coverage includes:
-- `test_suite.js`: Authentication, password reset flow, layout restoration, 10 platforms.
-- `verify_pwa.js`: Web App Manifest, icon integrity, service worker caching, zero emojis.
-- `test_interactive_guide.js`: Multi-platform installation guide modal navigation, Got It / Close (X) buttons, form preservation.
-- `verify_dashboard_logic.js`: 9 starter habits, custom habit lifecycle, idempotency.
-- `verify_full_integration.js`: Preferences toolbar, account panel, user isolation.
-- `verify_advanced_features.js`: Streaks, search/filters, reflections, analytics, export.
-
----
-
-## Deployment Guidelines
-
-### Cloudflare Workers (Static Assets) & Cloudflare Pages
-
-HabitFlow is preconfigured for high-speed global static deployment on Cloudflare:
-- **Build Command**: `npm run build` (or `node build.js`)
-- **Output Directory**: `dist`
-- **Deploy Command**: `npm run deploy` (or `npx wrangler deploy`)
-- **Configuration**: Managed via [`wrangler.jsonc`](file:///c:/Users/DE/Desktop/HabitFlow/wrangler.jsonc), pointing `"assets": { "directory": "./dist" }` to prevent deploying development tooling or `node_modules`.
-
-### Other Static Hosting (Vercel, Netlify, Cloudflare Pages)
+### Static & Jamstack Hosting (Vercel, Netlify, Cloudflare Pages)
 
 - **Build Command**: `npm run build`
-- **Publish / Output Directory**: `dist`
-- **Headers**: Cloudflare `_headers` is automatically placed in `dist/` with `Service-Worker-Allowed: /` and PWA caching rules.
-
-### GitHub Pages
-
-To deploy on GitHub Pages:
-- Build `dist/` using `npm run build` and deploy the `dist` folder. Ensure root paths in `manifest.webmanifest` account for repository subpaths if not using a custom domain.
+- **Output Directory**: `dist`
+- **Headers**: Cloudflare `_headers` is automatically generated in `dist/` with `Service-Worker-Allowed: /` and PWA caching directives.
 
 ---
 
-## About the Creator
+## License & Attribution
 
-**Hazim Bashir (حازم بشیر)**  
-Independent Software Creator & Android Developer  
-Ganderbal, Jammu & Kashmir, India  
-- **GitHub**: [@officialhazim42](https://github.com/officialhazim42)  
-- **Email**: [hazimbashirfaqeer@gmail.com](mailto:hazimbashirfaqeer@gmail.com)  
-- **LinkedIn**: [hazim-bashir-faqeer](https://www.linkedin.com/in/hazim-bashir-faqeer)  
-- **X / Twitter**: [@officialhazim42](https://x.com/officialhazim42)  
+All rights reserved. Copyright &copy; **Hazim Bashir (حازم بشیر)**.
 
----
-
-*Crafted with precision by Hazim Bashir (حازم بشیر).*
+Designed and developed by **Hazim Bashir (حازم بشیر)** — `@officialhazim42` in Kashmir.
+- **GitHub**: [@officialhazim42](https://github.com/officialhazim42)
+- **LinkedIn**: [hazim-bashir-faqeer](https://www.linkedin.com/in/hazim-bashir-faqeer)
+- **Email**: [hazimbashirfaqeer@gmail.com](mailto:hazimbashirfaqeer@gmail.com)
