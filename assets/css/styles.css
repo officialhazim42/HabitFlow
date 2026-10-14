@@ -1,0 +1,1158 @@
+/* ==============================================================================
+   HabitFlow — Core Design System Tokens & Base Components
+   Professional SaaS Specification (Strict No-Emoji Design)
+   Supports: Dark Mode, Light Mode, System Mode & 6 Accent Colors
+   ============================================================================== */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0B1220;
+  --surface-primary: #111B2B;
+  --surface-secondary: #162235;
+  --surface-elevated: #1B2940;
+  --surface-field: #0D1624;
+  --text-primary: #F4F7FB;
+  --text-secondary: #9AA8BC;
+  --text-muted: #6E7F96;
+  
+  --accent-primary: #9BE15D;
+  --accent-primary-hover: #8DD650;
+  --accent-secondary: #63D6BD;
+  --border-color: #29384D;
+  --border-subtle: #1E2D40;
+  --border-focus: #9BE15D;
+  
+  --danger: #F87171;
+  --danger-surface: rgba(248, 113, 113, 0.12);
+  --danger-border: rgba(248, 113, 113, 0.32);
+  --success: #9BE15D;
+  --success-surface: rgba(155, 225, 93, 0.10);
+  --success-border: rgba(155, 225, 93, 0.30);
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --shadow-elevated: 0 24px 64px rgba(0, 0, 0, 0.55);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-urdu: 'Noto Nastaliq Urdu', 'Urdu Typesetting', Tahoma, system-ui;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #F8FAFC;
+  --surface-primary: #FFFFFF;
+  --surface-secondary: #F1F5F9;
+  --surface-elevated: #FFFFFF;
+  --surface-field: #F8FAFC;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  
+  --accent-primary: #10B981;
+  --accent-primary-hover: #059669;
+  --accent-secondary: #0D9488;
+  --border-color: #CBD5E1;
+  --border-subtle: #E2E8F0;
+  --border-focus: #10B981;
+  
+  --danger: #EF4444;
+  --danger-surface: rgba(239, 68, 68, 0.10);
+  --danger-border: rgba(239, 68, 68, 0.30);
+  --success: #10B981;
+  --success-surface: rgba(16, 185, 129, 0.10);
+  --success-border: rgba(16, 185, 129, 0.30);
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 20px 48px rgba(0, 0, 0, 0.16);
+}
+
+/* 6 Accent Color Themes */
+[data-accent="emerald"] {
+  --accent-primary: #9BE15D;
+  --accent-primary-hover: #8DD650;
+  --accent-secondary: #63D6BD;
+  --border-focus: #9BE15D;
+}
+[data-accent="teal"] {
+  --accent-primary: #63D6BD;
+  --accent-primary-hover: #52C7AD;
+  --accent-secondary: #9BE15D;
+  --border-focus: #63D6BD;
+}
+[data-accent="blue"] {
+  --accent-primary: #38BDF8;
+  --accent-primary-hover: #0EA5E9;
+  --accent-secondary: #818CF8;
+  --border-focus: #38BDF8;
+}
+[data-accent="purple"] {
+  --accent-primary: #A78BFA;
+  --accent-primary-hover: #8B5CF6;
+  --accent-secondary: #F472B6;
+  --border-focus: #A78BFA;
+}
+[data-accent="amber"] {
+  --accent-primary: #FBBF24;
+  --accent-primary-hover: #F59E0B;
+  --accent-secondary: #F87171;
+  --border-focus: #FBBF24;
+}
+[data-accent="rose"] {
+  --accent-primary: #FB7185;
+  --accent-primary-hover: #F43F5E;
+  --accent-secondary: #FDA4AF;
+  --border-focus: #FB7185;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ==============================================================================
+   Universal Form Control System — Dark & Light Theme Resilient
+   Completely prevents white-background flashes and autofill styling bugs
+   ============================================================================== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input[type="search"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0 14px;
+  background-color: var(--surface-field) !important;
+  color: var(--text-primary) !important;
+  font-size: 13.5px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  color-scheme: inherit;
+}
+
+textarea {
+  height: auto;
+  min-height: 80px;
+  padding: 10px 14px;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--border-focus) !important;
+  background-color: var(--surface-field) !important;
+  box-shadow: 0 0 0 2px rgba(155, 225, 93, 0.2);
+  outline: none;
+}
+
+/* WebKit autofill styling fix: keeps theme background & readable text */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-field) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  caret-color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+select option {
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+/* Date and Time Picker icon styling */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8) hue-rotate(90deg);
+  cursor: pointer;
+}
+[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="light"] input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: none;
+}
+
+/* Checkbox accent */
+input[type="checkbox"] {
+  accent-color: var(--accent-primary);
+  cursor: pointer;
+}
+
+/* SVG Icon Utility System */
+.icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.icon-xs {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2;
+}
+
+.icon-sm {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2;
+}
+
+.icon-lg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+
+.icon-xl {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.75;
+}
+
+/* Brand Identity */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+  text-decoration: none;
+  user-select: none;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  box-shadow: 0 4px 12px rgba(155, 225, 93, 0.2);
+  color: #0B1220;
+}
+
+.brand-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+/* ==============================================================================
+   Button System — Strictly Full-Width Inside Forms & Pixel-Aligned
+   ============================================================================== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-primary);
+  color: #0B1220;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 2px 8px rgba(155, 225, 93, 0.18);
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(155, 225, 93, 0.26);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary Button in Authentication Forms: 100% Full-Width, Height 48px */
+.form .btn-primary,
+.auth-page .btn-primary,
+.btn-primary.btn-block {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  height: 48px !important;
+  box-sizing: border-box !important;
+  margin: 6px 0 0 0 !important;
+  padding: 0 20px !important;
+  font-size: 14px !important;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  user-select: none;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-elevated);
+  border-color: #3C506C;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Danger Button */
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  background: var(--danger-surface);
+  border: 1px solid var(--danger-border);
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.btn-danger:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+/* ==============================================================================
+   Interactive Habit Daily Checkbox Component
+   ============================================================================== */
+.habit-check-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.habit-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.habit-check-custom {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-color);
+  background: var(--surface-field);
+  display: grid;
+  place-items: center;
+  color: #0B1220;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.habit-checkbox:checked + .habit-check-custom {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.habit-check-control:hover .habit-check-custom {
+  border-color: var(--accent-primary);
+}
+
+.habit-checkbox:focus-visible + .habit-check-custom {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Toast Notification System */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 380px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: toastFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.toast-success {
+  background: #0E1A18;
+  border: 1px solid var(--success-border);
+  color: #D2F7BC;
+}
+
+.toast.toast-error {
+  background: #1C1215;
+  border: 1px solid var(--danger-border);
+  color: #FDC7C7;
+}
+
+.toast.toast-info {
+  background: #0F1928;
+  border: 1px solid #273A53;
+  color: #DDE8F8;
+}
+
+[data-theme="light"] .toast.toast-success {
+  background: #ECFDF5;
+  border-color: #A7F3D0;
+  color: #065F46;
+}
+[data-theme="light"] .toast.toast-error {
+  background: #FEF2F2;
+  border-color: #FECACA;
+  color: #991B1B;
+}
+[data-theme="light"] .toast.toast-info {
+  background: #F0F9FF;
+  border-color: #BAE6FD;
+  color: #075985;
+}
+
+.toast-body {
+  flex: 1;
+}
+
+.toast-close {
+  color: inherit;
+  opacity: 0.6;
+  padding: 0;
+  margin-left: 6px;
+  display: grid;
+  place-items: center;
+}
+.toast-close:hover {
+  opacity: 1;
+}
+
+@keyframes toastFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: #0B1220;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.spinner-light {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: #F4F7FB;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Config Banner */
+.config-banner {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.config-banner .config-tag {
+  background: rgba(99, 214, 189, 0.14);
+  color: var(--accent-secondary);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.config-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+
+.config-banner-btn:hover {
+  border-color: var(--accent-secondary);
+  color: var(--accent-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==============================================================================
+   HabitFlow — Progressive Web App (PWA) Interface Components
+   ============================================================================== */
+
+/* 1. Floating Smart Install App Banner */
+.pwa-install-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(140%);
+  width: calc(100% - 32px);
+  max-width: 540px;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.pwa-install-banner.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pwa-banner-card {
+  background: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
+  padding: 18px 20px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pwa-banner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pwa-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pwa-app-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pwa-app-icon svg {
+  display: block;
+}
+
+.pwa-banner-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.pwa-banner-title {
+  margin: 0 0 2px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.pwa-banner-desc {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.pwa-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pwa-btn-install {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pwa-btn-dismiss {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.pwa-btn-dismiss:hover {
+  color: var(--text-primary);
+}
+
+/* Three platform options at bottom of prompt */
+.pwa-banner-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.pwa-banner-options-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pwa-banner-options-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pwa-banner-guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  padding: 4px 9px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.pwa-banner-guide-btn:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  background: var(--surface-elevated);
+}
+
+/* 2. Global PWA Guide Modal System (Active across all pages) */
+.pwa-modal-backdrop,
+.dash-modal-backdrop.pwa-ios-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  background: rgba(5, 10, 18, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.pwa-modal-backdrop.is-open,
+.dash-modal-backdrop.pwa-ios-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.pwa-modal-dialog {
+  width: min(520px, 100%);
+  background: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pwa-modal-backdrop.is-open .pwa-modal-dialog,
+.dash-modal-backdrop.pwa-ios-backdrop.is-open .pwa-modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.pwa-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.pwa-modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pwa-modal-title {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.pwa-guide-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease;
+  margin-right: 4px;
+}
+
+.pwa-guide-back-btn:hover {
+  color: var(--accent-primary);
+}
+
+.pwa-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  line-height: 1.6;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.pwa-modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-color);
+  background: var(--surface-field);
+  flex-shrink: 0;
+}
+
+/* 3. Three Platform Selectable Cards (Platform Selection View) */
+.pwa-platforms-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.pwa-platform-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.pwa-platform-card:hover {
+  background: var(--surface-elevated);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.pwa-platform-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-primary);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.pwa-platform-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pwa-platform-info strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.pwa-platform-info span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.pwa-platform-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.pwa-platform-card:hover .pwa-platform-arrow {
+  transform: translateX(3px);
+  color: var(--accent-primary);
+}
+
+/* 4. Step Details & Badge Styling */
+.pwa-steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pwa-steps-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+.pwa-steps-list .step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  color: #0b1220;
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pwa-steps-list .step-text {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.pwa-steps-list .step-text strong {
+  color: var(--accent-primary);
+}
+
+.step-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  padding: 2px 4px;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--accent-primary);
+  margin: 0 2px;
+}
+
+.step-icon-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.pwa-guide-note {
+  margin-top: 14px;
+  padding: 10px 12px;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.pwa-native-action-row {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* 5. Offline Network Status Banner */
+.pwa-network-badge {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  animation: pwaBadgeIn 0.3s ease forwards;
+}
+
+.pwa-network-badge.is-offline {
+  background: #2a1b1b;
+  color: #fca5a5;
+  border: 1px solid #7f1d1d;
+}
+
+.pwa-network-badge.is-online {
+  background: #142a1f;
+  color: #86efac;
+  border: 1px solid #166534;
+}
+
+@keyframes pwaBadgeIn {
+  from {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 6. Responsive Adjustments for Mobile Screens */
+@media (max-width: 640px) {
+  .pwa-install-banner {
+    bottom: 12px;
+    width: calc(100% - 20px);
+  }
+
+  .pwa-banner-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .pwa-banner-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .pwa-banner-left {
+    align-items: flex-start;
+  }
+
+  .pwa-banner-actions {
+    justify-content: flex-end;
+  }
+
+  .pwa-btn-install,
+  .pwa-btn-dismiss {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .pwa-banner-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .pwa-banner-options-btns {
+    width: 100%;
+  }
+
+  .pwa-banner-guide-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 6px 8px;
+  }
+
+  .pwa-modal-dialog {
+    max-height: calc(100vh - 24px);
+    border-radius: var(--radius-md);
+  }
+
+  .pwa-modal-head,
+  .pwa-modal-body,
+  .pwa-modal-foot {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+

@@ -1,0 +1,23 @@
+{
+  "name": "habitflow",
+  "version": "1.2.0",
+  "description": "HabitFlow — A modern habit tracking Progressive Web App for building routines, tracking consistency, and monitoring personal progress.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_suite.js && node verify_pwa.js",
+    "test:all": "node test_suite.js && node verify_pwa.js && node verify_dashboard_logic.js && node verify_full_integration.js && node verify_advanced_features.js && node test_interactive_guide.js",
+    "icons": "node generate_pwa_icons.js"
+  },
+  "keywords": [
+    "habitflow",
+    "habit-tracker",
+    "pwa",
+    "progressive-web-app",
+    "supabase",
+    "habits",
+    "productivity",
+    "offline-first"
+  ],
+  "author": "Hazim Bashir"
+}

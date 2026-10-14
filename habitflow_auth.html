@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1220" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HabitFlow" />
+  <meta name="description" content="HabitFlow — Modern, privacy-focused habit tracking application with secure authentication." />
+  <title>HabitFlow — Welcome</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="alternate icon" href="favicon.svg" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Core and Component Stylesheets -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/auth.css" />
+  <link rel="stylesheet" href="assets/css/developer-modal.css" />
+  <script type="module" src="assets/js/theme.js"></script>
+</head>
+<body class="auth-page">
+  <main class="shell">
+    <!-- Left Hero Story Side -->
+    <aside class="story" aria-label="HabitFlow introduction">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#0B1220" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+        <span class="brand-text">HabitFlow</span>
+      </div>
+
+      <div>
+        <div class="story-copy">
+          <div class="eyebrow">Small steps. Big change.</div>
+          <h1>Build better habits.<br>Make progress daily.</h1>
+          <p>Create meaningful routines, track your progress, and build consistency one day at a time.</p>
+        </div>
+
+        <div class="habit-card" aria-label="Weekly habit preview">
+          <div class="habit-card-head">
+            <strong>Your weekly momentum</strong>
+            <span class="habit-card-metric">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              <span>+18%</span>
+            </span>
+          </div>
+          <div class="week">
+            <div class="day done"><span>M</span><span class="dot"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="day done"><span>T</span><span class="dot"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="day done"><span>W</span><span class="dot"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+            <div class="day"><span>T</span><span class="dot"></span></div>
+            <div class="day"><span>F</span><span class="dot"></span></div>
+            <div class="day"><span>S</span><span class="dot"></span></div>
+            <div class="day"><span>S</span><span class="dot"></span></div>
+          </div>
+          <div class="streak">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" style="color:var(--accent-primary)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <span><b>3-day streak.</b> Keep showing up for yourself.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-foot">
+        <span>&copy; HabitFlow</span>
+        <span>
+          <a href="#" data-open-developer-modal>About Developer</a>
+          <span style="opacity:0.3;margin:0 4px">|</span>
+          <a href="#" data-open-install-guide>Install App</a>
+          <span style="opacity:0.3;margin:0 4px">|</span>
+          <a href="pages/privacy.html">Privacy</a>
+          <span style="opacity:0.3;margin:0 4px">|</span>
+          <a href="pages/terms.html">Terms</a>
+        </span>
+      </div>
+    </aside>
+
+    <!-- Right Authentication Form Side -->
+    <section class="form-side">
+      <div class="mobile-brand">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0B1220" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="brand-text">HabitFlow</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn-secondary" style="padding:4px 10px;font-size:12px;height:32px" data-open-install-guide>
+            Install App
+          </button>
+          <button type="button" class="btn-secondary" style="padding:4px 10px;font-size:12px;height:32px" data-open-developer-modal>
+            Developer
+          </button>
+        </div>
+      </div>
+
+      <!-- Supabase Setup & Environment Notice -->
+      <div id="configBanner" class="config-banner" style="display:none;" role="alert">
+        <div>
+          <span class="config-tag">Setup</span>
+          <span style="margin-left: 6px;">Connect your Supabase project to enable live authentication.</span>
+        </div>
+        <button type="button" id="openConfigModalBtn" class="config-banner-btn">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Connect Supabase</span>
+        </button>
+      </div>
+
+      <div class="form-head">
+        <h2 id="heading">Welcome back</h2>
+        <p id="subheading">Pick up where you left off. Your goals are waiting.</p>
+      </div>
+
+      <div class="tabs" id="tabs" role="tablist" aria-label="Account options">
+        <button class="tab active" type="button" data-view="login" role="tab" aria-selected="true" id="tabLogin">Log in</button>
+        <button class="tab" type="button" data-view="signup" role="tab" aria-selected="false" id="tabSignup">Create account</button>
+      </div>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="form active" novalidate aria-labelledby="tabLogin">
+        <div class="field">
+          <div class="label-row"><label for="loginEmail">Email address</label></div>
+          <input id="loginEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="loginPassword">Password</label>
+            <button type="button" class="text-link" data-view="forgot" id="forgotPassBtn">Forgot password?</button>
+          </div>
+          <div class="input-wrap">
+            <input class="password-input" id="loginPassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required minlength="8" />
+            <button class="show-pass" type="button" data-toggle="loginPassword" aria-label="Toggle password visibility">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="options">
+          <label class="check"><input type="checkbox" id="remember" checked /> <span>Remember me</span></label>
+          <span style="color:var(--text-muted);font-size:11px">Secure session</span>
+        </div>
+        <button class="btn-primary" type="submit" id="loginSubmitBtn">
+          <span>Log in to HabitFlow</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="divider">OR CONTINUE WITH</div>
+        <div class="socials">
+          <button class="social" type="button" data-social="Google" aria-label="Continue with Google">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+          <button class="social" type="button" data-social="Facebook" aria-label="Continue with Facebook">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/><path fill="#ffffff" d="M15.83 15.563l.532-3.49h-3.328V9.806c0-.956.465-1.886 1.956-1.886h1.512V4.949s-1.374-.236-2.686-.236c-2.741 0-4.533 1.672-4.533 4.697v2.663H7.078v3.49h3.047V24c.618.097 1.25.147 1.875.147s1.257-.05 1.875-.147v-8.437h2.955z"/></svg>
+            <span>Continue with Facebook</span>
+          </button>
+        </div>
+        <p class="bottom-note">Don't have an account? <a href="#" data-view="signup">Sign up free</a></p>
+      </form>
+
+      <!-- Registration Form -->
+      <form id="signupForm" class="form" novalidate aria-labelledby="tabSignup">
+        <div class="field">
+          <div class="label-row"><label for="fullName">Your full name</label></div>
+          <input id="fullName" name="name" type="text" placeholder="Alex Morgan" autocomplete="name" required minlength="2" />
+        </div>
+        <div class="field">
+          <div class="label-row"><label for="signupEmail">Email address</label></div>
+          <input id="signupEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <div class="label-row"><label for="signupPassword">Create password</label></div>
+          <div class="input-wrap">
+            <input class="password-input" id="signupPassword" name="password" type="password" placeholder="At least 8 characters" autocomplete="new-password" required minlength="8" />
+            <button class="show-pass" type="button" data-toggle="signupPassword" aria-label="Toggle password visibility">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="strength" id="strength"><div class="strength-bar" id="strengthBar"></div></div>
+          <div class="strength-label" id="strengthLabel">Use 8+ characters with mixed cases, numbers, and symbols.</div>
+        </div>
+        <div class="field">
+          <div class="label-row"><label for="confirmPassword">Confirm password</label></div>
+          <div class="input-wrap">
+            <input class="password-input" id="confirmPassword" name="confirmPassword" type="password" placeholder="Enter password again" autocomplete="new-password" required minlength="8" />
+            <button class="show-pass" type="button" data-toggle="confirmPassword" aria-label="Toggle password visibility">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="terms">
+          <label class="check">
+            <input type="checkbox" id="agreeTerms" required />
+            <span>I agree to the <a href="pages/terms.html" target="_blank">Terms of Service</a> and <a href="pages/privacy.html" target="_blank">Privacy Policy</a>.</span>
+          </label>
+        </div>
+        <button class="btn-primary" type="submit" id="signupSubmitBtn">
+          <span>Create my account</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="divider">OR SIGN UP WITH</div>
+        <div class="socials">
+          <button class="social" type="button" data-social="Google" aria-label="Continue with Google">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+          <button class="social" type="button" data-social="Facebook" aria-label="Continue with Facebook">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/><path fill="#ffffff" d="M15.83 15.563l.532-3.49h-3.328V9.806c0-.956.465-1.886 1.956-1.886h1.512V4.949s-1.374-.236-2.686-.236c-2.741 0-4.533 1.672-4.533 4.697v2.663H7.078v3.49h3.047V24c.618.097 1.25.147 1.875.147s1.257-.05 1.875-.147v-8.437h2.955z"/></svg>
+            <span>Continue with Facebook</span>
+          </button>
+        </div>
+        <p class="bottom-note">Already have an account? <a href="#" data-view="login">Log in</a></p>
+      </form>
+
+      <!-- Forgot Password Form -->
+      <form id="forgotForm" class="form" novalidate>
+        <button type="button" class="back-link" data-view="login" aria-label="Return to login screen">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>Back to log in</span>
+        </button>
+        <div class="form-head" style="margin-bottom:20px">
+          <h2 style="font-size:24px">Reset your password</h2>
+          <p>Enter the email linked to your account. If it exists, you will receive a secure password recovery link.</p>
+        </div>
+        <div class="field">
+          <div class="label-row"><label for="forgotEmail">Email address</label></div>
+          <input id="forgotEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <button class="btn-primary" type="submit" id="forgotSubmitBtn">
+          <span>Send reset link</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <p class="fine-print">For security, we do not disclose whether an email address is registered.</p>
+      </form>
+
+      <p class="fine-print" id="securityNote">
+        Designed and developed by <a href="#" data-open-developer-modal>Hazim Bashir (حازم بشیر)</a> in Kashmir.
+      </p>
+    </section>
+  </main>
+
+  <!-- In-App Supabase Setup Modal -->
+  <div id="configModal" class="config-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="cfgModalTitle">
+    <div class="config-modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 id="cfgModalTitle">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Supabase Configuration</span>
+        </h3>
+        <button type="button" id="closeConfigModalBtn" class="dev-modal-close">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <p>
+        Enter your project's <strong>Project URL</strong> and <strong>Anon Public Key</strong> from your Supabase dashboard (Project Settings → API).
+      </p>
+      <form id="configForm">
+        <div class="field">
+          <div class="label-row"><label for="cfgSupabaseUrl">Supabase Project URL</label></div>
+          <input id="cfgSupabaseUrl" type="text" placeholder="https://xyzcompany.supabase.co" required />
+        </div>
+        <div class="field">
+          <div class="label-row"><label for="cfgSupabaseKey">Supabase Anon Key</label></div>
+          <input id="cfgSupabaseKey" type="text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." required />
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button type="submit" class="btn-primary" style="flex:1">Save & Connect</button>
+          <button type="button" id="cfgResetBtn" class="btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application Modules -->
+  <script type="module" src="assets/js/profile.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script type="module" src="assets/js/pwa.js"></script>
+</body>
+</html>

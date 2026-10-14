@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1220" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HabitFlow" />
+  <title>HabitFlow — Small steps. Big change.</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="alternate icon" href="favicon.svg" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script type="module" src="assets/js/pwa.js"></script>
+  <style>
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 24px;
+      background-color: var(--bg);
+    }
+    .splash-card {
+      background: var(--surface-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 36px 32px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: var(--shadow-elevated);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-card">
+    <div class="brand">
+      <span class="brand-mark" style="width:42px;height:42px">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0B1220" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </span>
+      <span class="brand-text" style="font-size:22px">HabitFlow</span>
+    </div>
+    <div style="color:var(--text-secondary);font-size:13px;line-height:1.6">
+      Loading your workspace...
+    </div>
+    <div class="spinner spinner-light" style="width:20px;height:20px;border-width:2px"></div>
+  </div>
+
+  <script type="module">
+    import { getSupabase } from './assets/js/supabase-client.js';
+
+    async function routeUser() {
+      const supabase = getSupabase();
+      if (!supabase) {
+        window.location.replace('habitflow_auth.html');
+        return;
+      }
+
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session && session.user) {
+          window.location.replace('dashboard.html');
+        } else {
+          window.location.replace('habitflow_auth.html');
+        }
+      } catch (e) {
+        window.location.replace('habitflow_auth.html');
+      }
+    }
+
+    routeUser();
+  </script>
+</body>
+</html>

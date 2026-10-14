@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1220" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="HabitFlow" />
+  <title>HabitFlow — Dashboard</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="alternate icon" href="favicon.svg" />
+
+  <!-- Google Fonts: Inter & Noto Nastaliq Urdu -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+  <link rel="stylesheet" href="assets/css/developer-modal.css" />
+  <script type="module" src="assets/js/theme.js"></script>
+</head>
+<body class="dashboard-page" id="dashboard">
+  <!-- Original Dashboard Top Toolbar / Navigation -->
+  <header class="dash-header">
+    <nav class="dash-nav" aria-label="Main Navigation">
+      <!-- Left: Brand -->
+      <a href="dashboard.html" class="brand" aria-label="HabitFlow Home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0B1220" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+        <span class="brand-text">HabitFlow</span>
+      </a>
+
+      <!-- Right: Direct Preferences & Appearance Entry + User Account Menu Trigger -->
+      <div class="dash-nav-actions">
+        <!-- Direct Preferences & Appearance Button (Icon-Only) -->
+        <button type="button" class="dev-nav-btn nav-pref-btn" id="openPreferencesBtn" data-open-preferences title="Preferences & Appearance" aria-label="Preferences & Appearance">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z"/></svg>
+        </button>
+
+        <!-- Profile / Account Menu Trigger Button -->
+        <button type="button" class="user-menu-btn" id="userMenuBtn" aria-haspopup="true" aria-expanded="false" aria-label="Open account menu">
+          <span class="user-avatar-initials">HF</span>
+          <span class="user-name-label" id="userMenuName">Account</span>
+          <svg class="icon icon-xs" viewBox="0 0 24 24" style="width:12px;height:12px;color:var(--text-muted)"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Left-Side Slide-Out Account Panel (Opens when clicking profile/account menu) -->
+  <div class="account-panel-backdrop" id="accountPanelBackdrop" aria-hidden="true"></div>
+  <aside class="account-slide-panel" id="accountSlidePanel" aria-label="Account Panel" aria-hidden="true">
+    <div class="account-panel-head">
+      <div class="account-panel-user">
+        <span class="user-avatar-initials">HF</span>
+        <div class="account-panel-meta">
+          <div class="account-panel-name" id="userDropdownDisplayName">User</div>
+          <div class="account-panel-email" id="userMenuEmail">user@example.com</div>
+        </div>
+      </div>
+      <button type="button" class="dev-modal-close" id="closeAccountPanelBtn" aria-label="Close account menu">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    <nav class="account-panel-nav" role="menu" aria-label="Account Menu Options">
+      <button type="button" class="account-panel-item" data-open-settings role="menuitem">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </button>
+
+      <button type="button" class="account-panel-item" id="accountPanelInstallBtn" role="menuitem">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span id="accountPanelInstallLabel">Install App</span>
+      </button>
+
+      <a href="pages/privacy.html" class="account-panel-item" role="menuitem">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+        <span>Privacy</span>
+      </a>
+
+      <button type="button" class="account-panel-item" data-open-developer-modal role="menuitem">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>About Developer</span>
+      </button>
+    </nav>
+
+    <!-- Sign Out located inside the Left-Side Account Panel -->
+    <div class="account-panel-foot">
+      <button type="button" class="account-panel-item danger-item" id="logoutDropdownBtn" role="menuitem">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="dash-main">
+    <!-- Welcome Header with Personalized Greeting -->
+    <div class="dash-welcome">
+      <div>
+        <h1 id="dashGreetingHeading">Welcome back, <span id="dashGreetingFirstName">Friend</span></h1>
+        <div class="dash-date" id="dashCurrentDate">Today's Journey</div>
+      </div>
+      <div class="dash-welcome-actions">
+        <button type="button" class="btn-subtle" id="openDailyReflectionBtn" aria-label="Open Daily Reflection">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span>Daily Reflection</span>
+        </button>
+        <button type="button" class="btn-subtle" id="openWeeklyReviewBtn" aria-label="Open Weekly Review">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          <span>Weekly Review</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Habit Overview Statistics Cards -->
+    <section class="stats-grid" id="statsGrid" aria-label="Habit Overview Statistics">
+      <div class="stat-card">
+        <div class="stat-card-head">
+          <span>Active Habits</span>
+          <span class="stat-card-icon">
+            <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </span>
+        </div>
+        <div class="stat-val" id="statTotalHabits">9</div>
+        <div class="stat-sub">Core daily routines</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head">
+          <span>Completed Today</span>
+          <span class="stat-card-icon">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+        </div>
+        <div class="stat-val" id="statCompletedToday">0/9</div>
+        <div class="stat-sub" id="statCompletedSub">0% completed today</div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="todayProgressFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head">
+          <span>Current Streak</span>
+          <span class="stat-card-icon">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          </span>
+        </div>
+        <div class="stat-val" id="statBestStreak">0 days</div>
+        <div class="stat-sub">Keep showing up for yourself</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-head">
+          <span>Weekly Momentum</span>
+          <span class="stat-card-icon">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </span>
+        </div>
+        <div class="stat-val" id="statWeeklyRate">0%</div>
+        <div class="stat-sub">Completion rate over 7 days</div>
+      </div>
+    </section>
+
+    <!-- Dynamic Weekly Review Banner -->
+    <div class="weekly-insight-banner" id="weeklyInsightBanner">
+      <div class="weekly-insight-icon">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="weekly-insight-body">
+        <span class="weekly-insight-label">Weekly Review & Insights</span>
+        <p id="weeklyInsightText" class="weekly-insight-text">Analyzing your scheduled habit opportunities and progress...</p>
+      </div>
+      <button type="button" class="btn-subtle" id="viewFullWeeklyReviewBtn" style="white-space:nowrap;">
+        View Review
+      </button>
+    </div>
+
+    <!-- Habit Management Section -->
+    <section id="habitsSection" aria-labelledby="habitsSectionTitle">
+      <div class="habits-section-head">
+        <div class="section-title-wrap">
+          <div class="section-header-row">
+            <div>
+              <h2 id="habitsSectionTitle">Your Daily Habits</h2>
+              <p class="section-subtext">Starter routines and custom habits to build daily consistency.</p>
+            </div>
+            <button type="button" class="btn add-habit-btn" id="openAddHabitModalBtn" data-open-add-habit aria-label="Add a new habit">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ Add Habit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Active vs Archived View Switch -->
+        <div class="habit-view-tabs" role="tablist" aria-label="Habit View">
+          <button type="button" class="view-tab active" id="viewTabActive" data-view="active" role="tab" aria-selected="true">
+            Active Habits
+          </button>
+          <button type="button" class="view-tab" id="viewTabArchived" data-view="archived" role="tab" aria-selected="false">
+            Archived Habits <span id="archivedCountBadge" class="badge">0</span>
+          </button>
+        </div>
+
+        <!-- Search, Filter & Sort Toolbar -->
+        <div class="habit-controls-row">
+          <div class="habit-search-wrap">
+            <svg class="icon icon-xs" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="habitSearchInput" class="habit-search-input" placeholder="Search habits by name..." autocomplete="off" />
+          </div>
+
+          <div class="status-filters" role="group" aria-label="Filter by completion status">
+            <button type="button" class="status-pill active" data-status="all">All</button>
+            <button type="button" class="status-pill" data-status="pending">Remaining</button>
+            <button type="button" class="status-pill" data-status="completed">Completed</button>
+          </div>
+
+          <div class="habit-sort-wrap">
+            <select id="habitSortSelect" class="habit-sort-select" aria-label="Sort habits">
+              <option value="default">Default Order</option>
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="streak-desc">Highest Streak</option>
+              <option value="completion-desc">Best Consistency</option>
+              <option value="newest">Newest First</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="category-filters" role="tablist" aria-label="Habit Categories">
+          <button type="button" class="cat-pill active" data-category="All" role="tab">All</button>
+          <button type="button" class="cat-pill" data-category="Personal Development" role="tab">Personal Dev</button>
+          <button type="button" class="cat-pill" data-category="Health" role="tab">Health</button>
+          <button type="button" class="cat-pill" data-category="Fitness" role="tab">Fitness</button>
+          <button type="button" class="cat-pill" data-category="Learning" role="tab">Learning</button>
+          <button type="button" class="cat-pill" data-category="Productivity" role="tab">Productivity</button>
+          <button type="button" class="cat-pill" data-category="Sleep" role="tab">Sleep</button>
+        </div>
+      </div>
+
+      <!-- Habit Cards Grid -->
+      <div class="habits-grid" id="habitsContainer">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg class="icon icon-xl" viewBox="0 0 24 24"><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="4.93" x2="7.76" y1="4.93" y2="7.76"/><line x1="16.24" x2="19.07" y1="16.24" y2="19.07"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/><line x1="4.93" x2="7.76" y1="19.07" y2="16.24"/><line x1="16.24" x2="19.07" y1="7.76" y2="4.93"/></svg>
+          </div>
+          <h3 class="empty-title">Loading daily habits...</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced Analytics Dashboard -->
+    <section id="analyticsSection" class="dash-section" aria-labelledby="analyticsTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="analyticsTitle">Habit Analytics & Insights</h2>
+          <p class="section-subtext">Completion trends, schedule consistency, and habit performance based on actual records.</p>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <!-- 7-Day Completion Trend Chart -->
+        <div class="analytics-card chart-card">
+          <div class="card-head">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <strong>7-Day Completion Trend</strong>
+            </div>
+            <span class="card-badge" id="analyticsWeeklyAvg">0% consistency</span>
+          </div>
+          <div class="chart-container" id="weeklyTrendChart">
+            <!-- Rendered dynamically as SVG in dashboard.js -->
+          </div>
+        </div>
+
+        <!-- Performance Highlights -->
+        <div class="analytics-card highlights-card">
+          <div class="card-head">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <strong>Performance Highlights</strong>
+            </div>
+          </div>
+          <div class="highlights-list">
+            <div class="highlight-item">
+              <div class="highlight-meta">
+                <span class="highlight-label">Most Consistent Routine</span>
+                <strong id="bestPerformingHabit" class="highlight-val">-</strong>
+              </div>
+              <span class="highlight-stat" id="bestPerformingRate">0%</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-meta">
+                <span class="highlight-label">Needs Attention</span>
+                <strong id="attentionHabit" class="highlight-val">-</strong>
+              </div>
+              <span class="highlight-stat" id="attentionRate">0%</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-meta">
+                <span class="highlight-label">Total Habit Check-Ins</span>
+                <strong id="totalCheckinsCount" class="highlight-val">0</strong>
+              </div>
+              <span class="highlight-stat">Lifetime</span>
+            </div>
+            <div class="highlight-item">
+              <div class="highlight-meta">
+                <span class="highlight-label">Overall Consistency Score</span>
+                <strong id="overallConsistencyScore" class="highlight-val">0%</strong>
+              </div>
+              <span class="highlight-stat">Scheduled vs Done</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calendar & Historical Tracking -->
+    <section id="calendarSection" class="dash-section" aria-labelledby="calendarTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="calendarTitle">Calendar & History</h2>
+          <p class="section-subtext">Review daily routine history, inspect completion status, and read reflections.</p>
+        </div>
+      </div>
+
+      <div class="calendar-wrapper">
+        <div class="calendar-card">
+          <div class="calendar-nav-row">
+            <button type="button" class="cal-nav-btn" id="calPrevMonthBtn" aria-label="Previous Month">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <h3 class="calendar-month-title" id="calendarMonthTitle">October 2026</h3>
+            <button type="button" class="cal-nav-btn" id="calNextMonthBtn" aria-label="Next Month">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
+          <div class="calendar-days-grid" id="calendarDaysGrid">
+            <!-- Injected dynamically in dashboard.js -->
+          </div>
+        </div>
+
+        <!-- Selected Date Details Drawer -->
+        <div class="calendar-day-details" id="calendarDayDetails">
+          <div class="day-details-head">
+            <h4 id="calSelectedDateHeading">Selected Day</h4>
+            <button type="button" class="btn-subtle" id="calOpenReflectionForDateBtn" style="height:28px;padding:0 8px;font-size:11.5px">
+              <svg class="icon icon-xs" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <span>Daily Reflection</span>
+            </button>
+          </div>
+          <div id="calSelectedDayHabitsList" class="day-habits-list">
+            <!-- Injected dynamically in dashboard.js -->
+          </div>
+          <div id="calSelectedDayReflectionBox" class="day-reflection-box" style="display:none;">
+            <!-- Reflection summary for date -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Preferences & Appearance Modal (Direct Access from Navigation) -->
+  <div id="preferencesModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="prefModalTitle">
+    <div class="dash-modal-dialog" style="max-width:540px;max-height:calc(100vh - 40px);overflow-y:auto">
+      <div class="dash-modal-head">
+        <h3 id="prefModalTitle">Preferences & Appearance</h3>
+        <button type="button" id="closePrefModalBtn" class="dev-modal-close" aria-label="Close preferences">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Appearance Card -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z"/></svg>
+          <span>Theme & Accent</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Theme Mode</strong>
+            <span>Choose display mode</span>
+          </div>
+          <select id="prefThemeSelect" style="width:auto;min-width:140px;height:36px;min-height:36px;padding:0 10px;font-size:12px;">
+            <option value="dark">Dark Mode</option>
+            <option value="light">Light Mode</option>
+            <option value="system">System Preference</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Accent Color</strong>
+            <span>6 curated aesthetic palettes</span>
+          </div>
+          <div class="accent-picker-grid" id="prefAccentPickerGrid">
+            <button type="button" class="accent-pill-btn" data-accent="emerald" title="Emerald" style="background:#9BE15D"></button>
+            <button type="button" class="accent-pill-btn" data-accent="teal" title="Teal" style="background:#63D6BD"></button>
+            <button type="button" class="accent-pill-btn" data-accent="blue" title="Ocean Blue" style="background:#38BDF8"></button>
+            <button type="button" class="accent-pill-btn" data-accent="purple" title="Indigo / Violet" style="background:#A78BFA"></button>
+            <button type="button" class="accent-pill-btn" data-accent="amber" title="Amber Gold" style="background:#FBBF24"></button>
+            <button type="button" class="accent-pill-btn" data-accent="rose" title="Rose Crimson" style="background:#FB7185"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regional & Calendar Preferences Card -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span>Regional & Calendar</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Timezone Preference</strong>
+            <span>Habit tracking & reminder alignment</span>
+          </div>
+          <select id="prefTimezoneSelect" style="width:auto;min-width:160px;height:36px;min-height:36px;padding:0 10px;font-size:12px;">
+            <option value="auto">Auto-detect (System)</option>
+            <option value="UTC">UTC (Universal)</option>
+            <option value="America/New_York">America/New York (EST/EDT)</option>
+            <option value="America/Chicago">America/Chicago (CST/CDT)</option>
+            <option value="America/Los_Angeles">America/Los Angeles (PST/PDT)</option>
+            <option value="Europe/London">Europe/London (GMT/BST)</option>
+            <option value="Europe/Paris">Europe/Paris (CET/CEST)</option>
+            <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+            <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+            <option value="Asia/Singapore">Asia/Singapore (SGT)</option>
+            <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
+            <option value="Australia/Sydney">Australia/Sydney (AEST)</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Week Start Day</strong>
+            <span>Starting day for weekly track records</span>
+          </div>
+          <select id="prefWeekStartSelect" style="width:auto;min-width:140px;height:36px;min-height:36px;padding:0 10px;font-size:12px;">
+            <option value="Mon">Monday (Standard)</option>
+            <option value="Sun">Sunday</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Notifications Card -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span>Notifications</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Browser Notifications</strong>
+            <span id="prefNotifStatusLabel">Receive alerts for scheduled habits</span>
+          </div>
+          <button type="button" class="btn-secondary" id="prefNotifBtn" style="height:32px;padding:0 10px;font-size:11.5px">
+            Enable Alerts
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Habit Reminder Configuration Modal -->
+  <div id="remindersModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="remindersModalTitle">
+    <div class="dash-modal-dialog" style="max-width:580px;max-height:calc(100vh - 40px);overflow-y:auto">
+      <div class="dash-modal-head">
+        <h3 id="remindersModalTitle">Habit Reminders</h3>
+        <button type="button" id="closeRemindersModalBtn" class="dev-modal-close" aria-label="Close reminders modal">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <p style="color:var(--text-secondary);font-size:13px;line-height:1.5;margin:0 0 16px">
+        Manage daily alert times for your routines. Reminders are sent only when a habit is not yet marked as completed.
+      </p>
+      <div id="remindersListContainer" class="reminders-list-container">
+        <!-- Injected dynamically in dashboard.js -->
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:18px">
+        <button type="button" class="btn-primary" id="closeRemindersDoneBtn" style="height:38px;padding:0 20px">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings & Account Modal -->
+  <div id="settingsModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+    <div class="dash-modal-dialog" style="max-width:540px;max-height:calc(100vh - 40px);overflow-y:auto">
+      <div class="dash-modal-head">
+        <h3 id="settingsModalTitle">Settings & Account</h3>
+        <button type="button" id="closeSettingsModalBtn" class="dev-modal-close" aria-label="Close settings">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Account Section -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Account Details</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Email Address</strong>
+            <span id="settingsEmail">user@example.com</span>
+          </div>
+          <span style="font-size:11.5px;color:var(--accent-primary);font-weight:600">Verified</span>
+        </div>
+
+        <form id="updateProfileForm" style="margin-top:14px">
+          <div class="field">
+            <div class="label-row"><label for="settingsFullName">Display Name</label></div>
+            <input id="settingsFullName" type="text" required minlength="2" />
+          </div>
+          <button type="submit" class="btn-secondary" style="width:100%;height:38px">Update Name</button>
+        </form>
+      </div>
+
+      <!-- Security & Password Section with Complete Verification Flow -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Security & Password</span>
+        </div>
+        
+        <form id="changePasswordForm" novalidate>
+          <!-- Status Alert Message Area -->
+          <div id="changePasswordStatus" class="form-status" style="display:none;margin-bottom:12px;font-size:12.5px;padding:8px 12px;border-radius:6px;line-height:1.4;"></div>
+
+          <!-- 1. Current Password -->
+          <div class="field">
+            <div class="label-row">
+              <label for="settingsCurrentPassword">Current Password</label>
+            </div>
+            <div class="input-wrap">
+              <input id="settingsCurrentPassword" class="password-input" type="password" placeholder="Enter current password" required autocomplete="current-password" />
+              <button class="show-pass" type="button" data-toggle="settingsCurrentPassword" aria-label="Toggle password visibility">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. New Password -->
+          <div class="field">
+            <div class="label-row">
+              <label for="settingsNewPassword">New Password</label>
+            </div>
+            <div class="input-wrap">
+              <input id="settingsNewPassword" class="password-input" type="password" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password" />
+              <button class="show-pass" type="button" data-toggle="settingsNewPassword" aria-label="Toggle password visibility">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Confirm New Password -->
+          <div class="field">
+            <div class="label-row">
+              <label for="settingsConfirmPassword">Confirm New Password</label>
+            </div>
+            <div class="input-wrap">
+              <input id="settingsConfirmPassword" class="password-input" type="password" placeholder="Repeat new password" minlength="8" required autocomplete="new-password" />
+              <button class="show-pass" type="button" data-toggle="settingsConfirmPassword" aria-label="Toggle password visibility">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-secondary" id="changePasswordSubmitBtn" style="width:100%;height:38px">Change Password</button>
+        </form>
+      </div>
+
+      <!-- Quick Preferences Link -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z"/></svg>
+          <span>Preferences & Appearance</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Display & Regional Settings</strong>
+            <span>Theme modes, 6 accent colors, timezones & week start</span>
+          </div>
+          <button type="button" class="btn-secondary" data-open-preferences style="height:32px;padding:0 12px;font-size:12px">
+            Configure
+          </button>
+        </div>
+      </div>
+
+      <!-- Install Application Section -->
+      <div class="settings-section-card" id="settingsInstallCard">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Install Application</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Install HabitFlow</strong>
+            <span id="settingsInstallDescription">Install HabitFlow for fast access and reliable offline viewing on your home screen or desktop.</span>
+          </div>
+          <button type="button" class="btn-primary" id="settingsInstallBtn" style="height:34px;padding:0 14px;font-size:12px;display:inline-flex;align-items:center;gap:6px">
+            <svg class="icon icon-xs" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Install App</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- About & Legal Section -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <span>About & Legal</span>
+        </div>
+        
+        <!-- About Developer Entry with exact subtitle required -->
+        <a href="#" id="settingsDevLink" class="settings-row" style="text-decoration:none;display:flex;cursor:pointer;" aria-label="About Developer Hazim Bashir">
+          <div class="settings-label">
+            <strong style="color:var(--accent-primary)">About Developer</strong>
+            <span>Hazim Bashir (حازم بشیر) • Ganderbal, J&K, India • Social media & links</span>
+          </div>
+          <svg class="icon icon-sm" viewBox="0 0 24 24" style="color:var(--accent-primary)"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Privacy Policy</strong>
+            <span>Data and authentication practices</span>
+          </div>
+          <a href="pages/privacy.html" class="text-link" target="_blank">View Policy</a>
+        </div>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Terms of Service</strong>
+            <span>Usage terms and conditions</span>
+          </div>
+          <a href="pages/terms.html" class="text-link" target="_blank">View Terms</a>
+        </div>
+      </div>
+
+      <!-- Data Export & Privacy Section -->
+      <div class="settings-section-card">
+        <div class="settings-card-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Data Export & Privacy</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;margin:0 0 14px">
+          Export your complete habit definitions, completion history, daily reflections, and streak statistics. We only store your authenticated user data with Row Level Security. Passwords and tokens are never exposed.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" class="btn-secondary" id="exportJsonBtn" style="height:36px;padding:0 14px;font-size:12px;display:inline-flex;align-items:center;gap:6px">
+            <svg class="icon icon-xs" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export as JSON</span>
+          </button>
+          <button type="button" class="btn-secondary" id="exportCsvBtn" style="height:36px;padding:0 14px;font-size:12px;display:inline-flex;align-items:center;gap:6px">
+            <svg class="icon icon-xs" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export as CSV</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Habit Modal -->
+  <div id="habitModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="habitModalTitle">
+    <div class="dash-modal-dialog" style="max-width:500px">
+      <div class="dash-modal-head">
+        <h3 id="habitModalTitle">Add New Habit</h3>
+        <button type="button" id="closeHabitModalBtn" class="dev-modal-close" aria-label="Close habit dialog">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="habitForm" class="habit-form" novalidate>
+        <input type="hidden" id="habitEditId" value="" />
+
+        <!-- Habit Name -->
+        <div class="field">
+          <div class="label-row">
+            <label for="habitNameInput">Habit Name <span style="color:var(--danger)">*</span></label>
+          </div>
+          <div class="input-wrap">
+            <input type="text" id="habitNameInput" placeholder="e.g. Morning Meditation" required maxlength="80" autocomplete="off" />
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="field">
+          <div class="label-row">
+            <label for="habitDescInput">Description <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+          </div>
+          <div class="input-wrap">
+            <textarea id="habitDescInput" rows="2" placeholder="Brief motivation, routine cue, or target" maxlength="200" style="padding:10px 12px;font-size:13px;resize:vertical;width:100%;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--surface-field);color:var(--text-primary);"></textarea>
+          </div>
+        </div>
+
+        <!-- Category & Frequency Grid -->
+        <div class="form-row-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <!-- Category -->
+          <div class="field">
+            <div class="label-row">
+              <label for="habitCategorySelect">Category</label>
+            </div>
+            <select id="habitCategorySelect" style="width:100%;height:40px;padding:0 10px;font-size:13px;">
+              <option value="Personal Development">Personal Development</option>
+              <option value="Health">Health</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Learning">Learning</option>
+              <option value="Productivity">Productivity</option>
+              <option value="Sleep">Sleep</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+
+          <!-- Frequency -->
+          <div class="field">
+            <div class="label-row">
+              <label for="habitFrequencySelect">Frequency</label>
+            </div>
+            <select id="habitFrequencySelect" style="width:100%;height:40px;padding:0 10px;font-size:13px;">
+              <option value="Every day">Every day</option>
+              <option value="Weekdays (Mon-Fri)">Weekdays (Mon-Fri)</option>
+              <option value="Weekends (Sat-Sun)">Weekends (Sat-Sun)</option>
+              <option value="Custom recurring schedule">Custom Days</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Custom Recurring Days Selector -->
+        <div id="habitCustomDaysWrap" class="field" style="display:none;margin-top:6px">
+          <div class="label-row">
+            <label>Select Scheduled Days</label>
+          </div>
+          <div class="custom-days-grid" id="customDaysGrid">
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Mon" checked /> Mon</label>
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Tue" checked /> Tue</label>
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Wed" checked /> Wed</label>
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Thu" checked /> Thu</label>
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Fri" checked /> Fri</label>
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Sat" /> Sat</label>
+            <label class="custom-day-chip"><input type="checkbox" name="customDay" value="Sun" /> Sun</label>
+          </div>
+        </div>
+
+        <!-- Target Quantity & Start Date Grid -->
+        <div class="form-row-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px">
+          <!-- Target or Measurable Quantity -->
+          <div class="field">
+            <div class="label-row">
+              <label for="habitTargetQuantityInput">Target / Goal <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+            </div>
+            <input type="text" id="habitTargetQuantityInput" placeholder="e.g. 8 glasses, 20 mins" maxlength="40" style="height:40px;padding:0 10px;font-size:13px;" />
+          </div>
+
+          <!-- Start Date -->
+          <div class="field">
+            <div class="label-row">
+              <label for="habitStartDateInput">Start Date</label>
+            </div>
+            <input type="date" id="habitStartDateInput" style="height:40px;padding:0 10px;font-size:13px;" />
+          </div>
+        </div>
+
+        <!-- Optional Daily Reminder -->
+        <div class="field" style="margin-top:6px">
+          <div class="label-row">
+            <label>Daily Reminder <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px;background:var(--surface-secondary);border:1px solid var(--border-color);border-radius:var(--radius-sm)">
+            <label class="check" style="margin:0;font-size:13px" title="Toggle daily reminder">
+              <input type="checkbox" id="habitReminderEnableInput" checked />
+              <span>Enable reminder</span>
+            </label>
+            <input type="time" id="habitReminderTimeInput" value="08:00" style="width:115px;height:32px;min-height:32px;padding:0 8px;font-size:12px;background:var(--surface-field);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);" />
+          </div>
+        </div>
+
+        <div id="habitFormStatus" class="form-status" style="display:none;margin-top:10px"></div>
+
+        <!-- Actions -->
+        <div class="dash-modal-foot" style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color)">
+          <button type="button" class="btn-secondary" id="cancelHabitModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveHabitBtn">Save Habit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Habit Confirmation Modal -->
+  <div id="deleteHabitModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <div class="dash-modal-dialog" style="max-width:440px">
+      <div class="dash-modal-head">
+        <h3 id="deleteModalTitle">Delete Habit</h3>
+        <button type="button" id="closeDeleteModalBtn" class="dev-modal-close" aria-label="Close delete dialog">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div style="padding:6px 0 16px;">
+        <p id="deleteModalMessage" style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;margin:0 0 12px;">
+          Are you sure you want to delete this habit? It will be removed from your active daily routines. Your historical completion records and statistics will be preserved.
+        </p>
+        <input type="hidden" id="deleteHabitId" value="" />
+      </div>
+
+      <div class="dash-modal-foot" style="display:flex;justify-content:flex-end;gap:10px;padding-top:16px;border-top:1px solid var(--border-color);flex-wrap:wrap">
+        <button type="button" class="btn-secondary" id="cancelDeleteModalBtn">Cancel</button>
+        <button type="button" class="btn-secondary" id="archiveHabitModalBtn" style="border-color:var(--accent-primary);color:var(--accent-primary)">Archive Habit</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteHabitBtn">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Notes & Reflection Modal -->
+  <div id="dailyReflectionModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="reflectionModalTitle">
+    <div class="dash-modal-dialog" style="max-width:540px;max-height:calc(100vh - 40px);overflow-y:auto">
+      <div class="dash-modal-head">
+        <div>
+          <h3 id="reflectionModalTitle">Daily Reflection</h3>
+          <span id="reflectionModalDate" style="color:var(--text-muted);font-size:12px">Today</span>
+        </div>
+        <button type="button" id="closeReflectionModalBtn" class="dev-modal-close" aria-label="Close reflection dialog">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="dailyReflectionForm" novalidate style="margin-top:14px">
+        <input type="hidden" id="reflectionDateInput" value="" />
+
+        <div class="field">
+          <div class="label-row">
+            <label for="reflWentWell">What went well today?</label>
+          </div>
+          <textarea id="reflWentWell" rows="3" placeholder="Wins, healthy choices, progress on goals..." style="padding:10px 12px;font-size:13px;width:100%;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--surface-field);color:var(--text-primary);resize:vertical;"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="label-row">
+            <label for="reflStruggled">What did you struggle with?</label>
+          </div>
+          <textarea id="reflStruggled" rows="3" placeholder="Distractions, fatigue, missed routines..." style="padding:10px 12px;font-size:13px;width:100%;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--surface-field);color:var(--text-primary);resize:vertical;"></textarea>
+        </div>
+
+        <div class="field">
+          <div class="label-row">
+            <label for="reflImprove">What will you improve tomorrow?</label>
+          </div>
+          <textarea id="reflImprove" rows="3" placeholder="One small adjustment or focus for tomorrow..." style="padding:10px 12px;font-size:13px;width:100%;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--surface-field);color:var(--text-primary);resize:vertical;"></textarea>
+        </div>
+
+        <div id="reflectionStatus" class="form-status" style="display:none;margin-top:10px"></div>
+
+        <div class="dash-modal-foot" style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-color)">
+          <button type="button" class="btn-secondary" id="cancelReflectionBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveReflectionBtn">Save Reflection</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Weekly Review & Goal Insights Modal -->
+  <div id="weeklyReviewModal" class="dash-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="weeklyReviewModalTitle">
+    <div class="dash-modal-dialog" style="max-width:540px;max-height:calc(100vh - 40px);overflow-y:auto">
+      <div class="dash-modal-head">
+        <div>
+          <h3 id="weeklyReviewModalTitle">Weekly Review & Insights</h3>
+          <span id="weeklyReviewDateRange" style="color:var(--text-muted);font-size:12px">Current Week</span>
+        </div>
+        <button type="button" id="closeWeeklyReviewModalBtn" class="dev-modal-close" aria-label="Close weekly review">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="weekly-review-body" style="margin-top:16px;">
+        <div class="highlights-list" id="weeklyStatsSummaryGrid">
+          <!-- Dynamically populated in dashboard.js -->
+        </div>
+
+        <div class="review-insight-card" id="weeklyReviewInsightBox" style="margin-top:16px;padding:14px;background:var(--surface-secondary);border:1px solid var(--border-color);border-radius:var(--radius-sm);line-height:1.6;font-size:13.5px;">
+          <!-- Insight statement populated dynamically -->
+        </div>
+      </div>
+
+      <div class="dash-modal-foot" style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:14px;border-top:1px solid var(--border-color)">
+        <button type="button" class="btn-primary" id="closeWeeklyReviewDoneBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="assets/js/profile.js"></script>
+  <script type="module" src="assets/js/dashboard.js"></script>
+  <script type="module" src="assets/js/pwa.js"></script>
+</body>
+</html>
