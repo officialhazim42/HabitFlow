@@ -267,7 +267,7 @@ HabitFlow requires connection to a Supabase project for live multi-device authen
 
 ```ini
 # Supabase Project URL (from Project Settings -> API)
-SUPABASE_URL="https://your-project-id.supabase.co"
+SUPABASE_URL="https://wzeuroydrorelcxprgew.supabase.co"
 
 # Supabase Public Anonymous Key (safe for frontend client use)
 SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your-anon-key-here"

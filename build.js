@@ -88,6 +88,35 @@ function build() {
     }
   }
 
+  // Inject production public Supabase configuration into dist/assets/js/config.js
+  const distConfigPath = path.join(DIST_DIR, 'assets', 'js', 'config.js');
+  if (fs.existsSync(distConfigPath)) {
+    let configContent = fs.readFileSync(distConfigPath, 'utf8');
+    const envPath = path.join(ROOT_DIR, '.env');
+    let publicUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+    let publicAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+    if (fs.existsSync(envPath)) {
+      const envRaw = fs.readFileSync(envPath, 'utf8');
+      envRaw.split('\n').forEach(line => {
+        const m = line.trim().match(/^([\w.-]+)\s*=\s*(.*)?$/);
+        if (m) {
+          let val = (m[2] || '').trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) val = val.slice(1, -1);
+          if (m[1] === 'SUPABASE_URL' || m[1] === 'VITE_SUPABASE_URL') publicUrl = val;
+          if (m[1] === 'SUPABASE_ANON_KEY' || m[1] === 'VITE_SUPABASE_PUBLISHABLE_KEY') publicAnonKey = val;
+        }
+      });
+    }
+    if (publicUrl) {
+      configContent = configContent.replace(/supabaseUrl:\s*['"][^'"]*['"]/, `supabaseUrl: '${publicUrl}'`);
+    }
+    if (publicAnonKey && !publicAnonKey.includes('your-anon-key')) {
+      configContent = configContent.replace(/supabaseAnonKey:\s*['"][^'"]*['"]/, `supabaseAnonKey: '${publicAnonKey}'`);
+    }
+    fs.writeFileSync(distConfigPath, configContent, 'utf8');
+    console.log('  + Injected Supabase configuration into dist/assets/js/config.js');
+  }
+
   // 3. Create Cloudflare _headers file for optimal PWA caching
   const headersContent = `
 # Service worker must not be cached aggressively and must have root scope

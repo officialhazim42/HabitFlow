@@ -268,29 +268,49 @@ const endpoints = [
   { url: 'http://localhost:3000/api/reminders', expectedStatus: 200, contentType: 'application/json' }
 ];
 
+const { spawn } = require('child_process');
+
 async function runHttpTests() {
-  for (const ep of endpoints) {
-    await new Promise((resolve, reject) => {
-      http.get(ep.url, (res) => {
-        try {
-          assert.strictEqual(res.statusCode, ep.expectedStatus, `Endpoint ${ep.url} must return ${ep.expectedStatus}`);
-          const ct = res.headers['content-type'] || '';
-          assert(ct.includes(ep.contentType), `Endpoint ${ep.url} content-type must include ${ep.contentType}, got ${ct}`);
-          resolve();
-        } catch (e) {
-          reject(e);
-        }
-      }).on('error', reject);
-    });
-    console.log(`[PASS] [200 OK] ${ep.url}`);
+  let spawnedServer = null;
+  const isServerRunning = await new Promise((resolve) => {
+    http.get('http://localhost:3000/api/reminders', () => resolve(true)).on('error', () => resolve(false));
+  });
+
+  if (!isServerRunning) {
+    console.log('Local dev server not detected; starting server on port 3000...');
+    spawnedServer = spawn(process.execPath, ['server.js'], { cwd: __dirname, stdio: 'ignore' });
+    await new Promise(r => setTimeout(r, 1000));
   }
 
-  console.log('\n=======================================');
-  console.log('ALL AUTOMATED TESTS PASSED 100%');
-  console.log('=======================================');
+  try {
+    for (const ep of endpoints) {
+      await new Promise((resolve, reject) => {
+        http.get(ep.url, (res) => {
+          try {
+            assert.strictEqual(res.statusCode, ep.expectedStatus, `Endpoint ${ep.url} must return ${ep.expectedStatus}`);
+            const ct = res.headers['content-type'] || '';
+            assert(ct.includes(ep.contentType), `Endpoint ${ep.url} content-type must include ${ep.contentType}, got ${ct}`);
+            resolve();
+          } catch (e) {
+            reject(e);
+          }
+        }).on('error', reject);
+      });
+      console.log(`[PASS] [200 OK] ${ep.url}`);
+    }
+
+    console.log('\n=======================================');
+    console.log('ALL AUTOMATED TESTS PASSED 100%');
+    console.log('=======================================');
+  } finally {
+    if (spawnedServer) {
+      spawnedServer.kill();
+    }
+  }
 }
 
 runHttpTests().catch(err => {
   console.error('Test failed:', err);
   process.exit(1);
 });
+

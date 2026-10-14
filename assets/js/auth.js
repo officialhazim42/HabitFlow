@@ -4,7 +4,7 @@
  */
 
 import { CONFIG } from './config.js';
-import { getSupabase, formatAuthError, signInWithGoogle, signInWithFacebook, reloadSupabaseClient } from './supabase-client.js';
+import { getSupabase, formatAuthError, signInWithGoogle, signInWithFacebook } from './supabase-client.js';
 import { isValidEmail, isValidName, evaluatePasswordStrength, doPasswordsMatch } from './validation.js';
 import { openDeveloperModal, showToast } from './profile.js';
 
@@ -20,19 +20,12 @@ const headingEl = document.getElementById('heading');
 const subheadingEl = document.getElementById('subheading');
 const messageEl = document.getElementById('message');
 const securityNoteEl = document.getElementById('securityNote');
-const configBannerEl = document.getElementById('configBanner');
 
 // Password strength elements
 const signupPasswordInput = document.getElementById('signupPassword');
 const strengthBox = document.getElementById('strength');
 const strengthBar = document.getElementById('strengthBar');
 const strengthLabel = document.getElementById('strengthLabel');
-
-// Setup modal elements
-const configModal = document.getElementById('configModal');
-const configForm = document.getElementById('configForm');
-const openConfigModalBtn = document.getElementById('openConfigModalBtn');
-const closeConfigModalBtn = document.getElementById('closeConfigModalBtn');
 
 function showMessage(text, type = 'success') {
   if (!messageEl) return;
@@ -92,11 +85,8 @@ export function switchView(view) {
 async function checkExistingSession() {
   const supabase = getSupabase();
   if (!supabase) {
-    updateConfigBanner();
     return;
   }
-
-  updateConfigBanner();
 
   try {
     const { data: { session }, error } = await supabase.auth.getSession();
@@ -106,15 +96,6 @@ async function checkExistingSession() {
     }
   } catch (err) {
     console.warn('Session check warning:', err.message);
-  }
-}
-
-function updateConfigBanner() {
-  if (!configBannerEl) return;
-  if (!CONFIG.isConfigured()) {
-    configBannerEl.style.display = 'flex';
-  } else {
-    configBannerEl.style.display = 'none';
   }
 }
 
@@ -217,8 +198,7 @@ export function initAuth() {
 
       const supabase = getSupabase();
       if (!supabase) {
-        showMessage('Supabase credentials are not configured. Click "Connect Supabase" above to enter your project credentials.', 'error');
-        if (configModal) configModal.classList.add('is-open');
+        showMessage('Authentication service is currently unavailable. Please check your connection and try again.', 'error');
         return;
       }
 
@@ -293,8 +273,7 @@ export function initAuth() {
 
       const supabase = getSupabase();
       if (!supabase) {
-        showMessage('Supabase credentials are not configured. Click "Connect Supabase" above to enter your project credentials.', 'error');
-        if (configModal) configModal.classList.add('is-open');
+        showMessage('Authentication service is currently unavailable. Please check your connection and try again.', 'error');
         return;
       }
 
@@ -357,8 +336,7 @@ export function initAuth() {
 
       const supabase = getSupabase();
       if (!supabase) {
-        showMessage('Supabase credentials are not configured. Click "Connect Supabase" above to enter your project credentials.', 'error');
-        if (configModal) configModal.classList.add('is-open');
+        showMessage('Authentication service is currently unavailable. Please check your connection and try again.', 'error');
         return;
       }
 
@@ -389,59 +367,6 @@ export function initAuth() {
     });
   }
 
-  // Setup / Config Modal Handlers
-  if (openConfigModalBtn && configModal) {
-    openConfigModalBtn.addEventListener('click', () => {
-      const urlInput = document.getElementById('cfgSupabaseUrl');
-      const keyInput = document.getElementById('cfgSupabaseKey');
-      if (urlInput && !CONFIG.supabaseUrl.includes('your-project-id')) urlInput.value = CONFIG.supabaseUrl;
-      if (keyInput && !CONFIG.supabaseAnonKey.includes('your-anon-key')) keyInput.value = CONFIG.supabaseAnonKey;
-      configModal.classList.add('is-open');
-    });
-  }
-
-  if (closeConfigModalBtn && configModal) {
-    closeConfigModalBtn.addEventListener('click', () => {
-      configModal.classList.remove('is-open');
-    });
-  }
-
-  if (configModal) {
-    configModal.addEventListener('click', (e) => {
-      if (e.target === configModal) configModal.classList.remove('is-open');
-    });
-  }
-
-  if (configForm) {
-    configForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const url = document.getElementById('cfgSupabaseUrl')?.value.trim();
-      const key = document.getElementById('cfgSupabaseKey')?.value.trim();
-
-      try {
-        CONFIG.saveCredentials(url, key);
-        reloadSupabaseClient();
-        updateConfigBanner();
-        configModal.classList.remove('is-open');
-        showToast('Supabase connection credentials saved!', 'success');
-        showMessage('Supabase connected! You can now log in or register.', 'success');
-      } catch (err) {
-        showToast(err.message, 'error');
-      }
-    });
-
-    const resetCfgBtn = document.getElementById('cfgResetBtn');
-    if (resetCfgBtn) {
-      resetCfgBtn.addEventListener('click', () => {
-        CONFIG.clearCredentials();
-        reloadSupabaseClient();
-        updateConfigBanner();
-        showToast('Credentials reset to defaults.', 'info');
-        configModal.classList.remove('is-open');
-      });
-    }
-  }
-
   // Developer credit links
   document.querySelectorAll('[data-open-developer]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -457,8 +382,7 @@ export function initAuth() {
 async function handleSocialAuth(provider, button) {
   const supabase = getSupabase();
   if (!supabase) {
-    showMessage(`To use ${provider} sign-in, please connect your Supabase project with ${provider} OAuth enabled.`, 'error');
-    if (configModal) configModal.classList.add('is-open');
+    showMessage(`${provider} sign-in is currently unavailable. Please try again shortly.`, 'error');
     return;
   }
 

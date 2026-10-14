@@ -104,17 +104,7 @@
         </div>
       </div>
 
-      <!-- Supabase Setup & Environment Notice -->
-      <div id="configBanner" class="config-banner" style="display:none;" role="alert">
-        <div>
-          <span class="config-tag">Setup</span>
-          <span style="margin-left: 6px;">Connect your Supabase project to enable live authentication.</span>
-        </div>
-        <button type="button" id="openConfigModalBtn" class="config-banner-btn">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span>Connect Supabase</span>
-        </button>
-      </div>
+
 
       <div class="form-head">
         <h2 id="heading">Welcome back</h2>
@@ -249,37 +239,7 @@
     </section>
   </main>
 
-  <!-- In-App Supabase Setup Modal -->
-  <div id="configModal" class="config-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="cfgModalTitle">
-    <div class="config-modal">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 id="cfgModalTitle">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span>Supabase Configuration</span>
-        </h3>
-        <button type="button" id="closeConfigModalBtn" class="dev-modal-close">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
-      </div>
-      <p>
-        Enter your project's <strong>Project URL</strong> and <strong>Anon Public Key</strong> from your Supabase dashboard (Project Settings → API).
-      </p>
-      <form id="configForm">
-        <div class="field">
-          <div class="label-row"><label for="cfgSupabaseUrl">Supabase Project URL</label></div>
-          <input id="cfgSupabaseUrl" type="text" placeholder="https://xyzcompany.supabase.co" required />
-        </div>
-        <div class="field">
-          <div class="label-row"><label for="cfgSupabaseKey">Supabase Anon Key</label></div>
-          <input id="cfgSupabaseKey" type="text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." required />
-        </div>
-        <div style="display:flex;gap:10px;margin-top:20px">
-          <button type="submit" class="btn-primary" style="flex:1">Save & Connect</button>
-          <button type="button" id="cfgResetBtn" class="btn-secondary">Reset</button>
-        </div>
-      </form>
-    </div>
-  </div>
+
 
   <!-- Application Modules -->
   <script type="module" src="assets/js/profile.js"></script>

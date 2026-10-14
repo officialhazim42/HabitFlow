@@ -198,18 +198,36 @@ async function runPwaVerification() {
     { url: 'http://localhost:3000/assets/js/pwa.js', expectedStatus: 200, contentType: 'application/javascript' }
   ];
 
-  for (const t of httpTests) {
-    try {
-      const res = await fetchEndpoint(t.url);
-      assert(res.statusCode === t.expectedStatus, `Endpoint ${t.url} returned status ${res.statusCode}, expected ${t.expectedStatus}`);
-      assert(res.headers['content-type'] && res.headers['content-type'].includes(t.contentType), `Endpoint ${t.url} returned content-type "${res.headers['content-type']}", expected "${t.contentType}"`);
-      if (t.requiredHeader) {
-        assert(res.headers[t.requiredHeader.name] === t.requiredHeader.value, `Endpoint ${t.url} header ${t.requiredHeader.name} returned "${res.headers[t.requiredHeader.name]}", expected "${t.requiredHeader.value}"`);
+  const { spawn } = require('child_process');
+  let spawnedServer = null;
+  const isServerRunning = await new Promise((resolve) => {
+    http.get('http://localhost:3000/manifest.json', () => resolve(true)).on('error', () => resolve(false));
+  });
+
+  if (!isServerRunning) {
+    console.log('Local dev server not detected; starting server on port 3000...');
+    spawnedServer = spawn(process.execPath, ['server.js'], { cwd: __dirname, stdio: 'ignore' });
+    await new Promise(r => setTimeout(r, 1000));
+  }
+
+  try {
+    for (const t of httpTests) {
+      try {
+        const res = await fetchEndpoint(t.url);
+        assert(res.statusCode === t.expectedStatus, `Endpoint ${t.url} returned status ${res.statusCode}, expected ${t.expectedStatus}`);
+        assert(res.headers['content-type'] && res.headers['content-type'].includes(t.contentType), `Endpoint ${t.url} returned content-type "${res.headers['content-type']}", expected "${t.contentType}"`);
+        if (t.requiredHeader) {
+          assert(res.headers[t.requiredHeader.name] === t.requiredHeader.value, `Endpoint ${t.url} header ${t.requiredHeader.name} returned "${res.headers[t.requiredHeader.name]}", expected "${t.requiredHeader.value}"`);
+        }
+        console.log(`[PASS] [${res.statusCode} OK] ${t.url} (${res.headers['content-type']})`);
+      } catch (err) {
+        console.error(`[FAIL] HTTP request to ${t.url} failed:`, err.message);
+        process.exit(1);
       }
-      console.log(`[PASS] [${res.statusCode} OK] ${t.url} (${res.headers['content-type']})`);
-    } catch (err) {
-      console.error(`[FAIL] HTTP request to ${t.url} failed:`, err.message);
-      process.exit(1);
+    }
+  } finally {
+    if (spawnedServer) {
+      spawnedServer.kill();
     }
   }
 

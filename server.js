@@ -1,7 +1,7 @@
 /**
  * HabitFlow — Local Development Server
  * Zero-dependency HTTP server with MIME types, clean routing,
- * and server-side background reminder processing endpoint.
+ * environment configuration loading, and server-side background reminder processing endpoint.
  */
 
 const http = require('http');
@@ -10,6 +10,33 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = __dirname;
+
+// Load environment variables from local .env if present
+function loadEnv() {
+  const envPath = path.join(ROOT_DIR, '.env');
+  if (fs.existsSync(envPath)) {
+    try {
+      const content = fs.readFileSync(envPath, 'utf8');
+      content.split('\n').forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return;
+        const match = trimmed.match(/^([\w.-]+)\s*=\s*(.*)?$/);
+        if (match) {
+          let val = (match[2] || '').trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          if (!process.env[match[1]]) {
+            process.env[match[1]] = val;
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('[HabitFlow] Could not parse .env file:', e.message);
+    }
+  }
+}
+loadEnv();
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -67,6 +94,15 @@ const server = http.createServer((req, res) => {
     }
   }
 
+  // Developer public runtime configuration endpoint (never exposes secret keys)
+  if (pathname === '/api/config') {
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    return res.end(JSON.stringify({
+      supabaseUrl: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || 'https://wzeuroydrorelcxprgew.supabase.co',
+      supabaseAnonKey: process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || ''
+    }));
+  }
+
   if (pathname === '/' || pathname === '') {
     pathname = '/habitflow_auth.html';
   }
@@ -103,8 +139,35 @@ const server = http.createServer((req, res) => {
       responseHeaders['Service-Worker-Allowed'] = '/';
     }
 
-    res.writeHead(200, responseHeaders);
+    // Dynamic injection of developer public config into HTML and config.js if env vars are present
+    const publicUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || 'https://wzeuroydrorelcxprgew.supabase.co';
+    const publicAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
 
+    if (ext === '.html') {
+      let html = fs.readFileSync(filePath, 'utf8');
+      if (publicAnonKey && !publicAnonKey.includes('your-anon-key')) {
+        const injectedConfig = `<script>window.__HABITFLOW_CONFIG__ = Object.assign(window.__HABITFLOW_CONFIG__ || {}, ${JSON.stringify({ supabaseUrl: publicUrl, supabaseAnonKey: publicAnonKey })});</script>`;
+        if (html.includes('</head>')) {
+          html = html.replace('</head>', `  ${injectedConfig}\n</head>`);
+        }
+      }
+      res.writeHead(200, responseHeaders);
+      return res.end(html);
+    }
+
+    if (pathname === '/assets/js/config.js') {
+      let code = fs.readFileSync(filePath, 'utf8');
+      if (publicUrl) {
+        code = code.replace(/supabaseUrl:\s*['"][^'"]*['"]/, `supabaseUrl: '${publicUrl}'`);
+      }
+      if (publicAnonKey && !publicAnonKey.includes('your-anon-key')) {
+        code = code.replace(/supabaseAnonKey:\s*['"][^'"]*['"]/, `supabaseAnonKey: '${publicAnonKey}'`);
+      }
+      res.writeHead(200, responseHeaders);
+      return res.end(code);
+    }
+
+    res.writeHead(200, responseHeaders);
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);
   });
