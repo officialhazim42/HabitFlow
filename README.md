@@ -184,17 +184,24 @@ Verification test coverage includes:
 
 ## Deployment Guidelines
 
-### Static & JAMstack Hosting (Vercel, Netlify, Cloudflare Pages)
+### Cloudflare Workers (Static Assets) & Cloudflare Pages
 
-HabitFlow is fully compatible with static hosting providers:
-- **Build Command**: Leave blank (no compilation required).
-- **Publish Directory**: Root (`./`)
-- **Headers**: Ensure `Service-Worker-Allowed: /` header is permitted for `/sw.js`.
+HabitFlow is preconfigured for high-speed global static deployment on Cloudflare:
+- **Build Command**: `npm run build` (or `node build.js`)
+- **Output Directory**: `dist`
+- **Deploy Command**: `npm run deploy` (or `npx wrangler deploy`)
+- **Configuration**: Managed via [`wrangler.jsonc`](file:///c:/Users/DE/Desktop/HabitFlow/wrangler.jsonc), pointing `"assets": { "directory": "./dist" }` to prevent deploying development tooling or `node_modules`.
+
+### Other Static Hosting (Vercel, Netlify, Cloudflare Pages)
+
+- **Build Command**: `npm run build`
+- **Publish / Output Directory**: `dist`
+- **Headers**: Cloudflare `_headers` is automatically placed in `dist/` with `Service-Worker-Allowed: /` and PWA caching rules.
 
 ### GitHub Pages
 
 To deploy on GitHub Pages:
-- Ensure paths in `manifest.webmanifest` and service worker registrations account for repository subpaths if not using a custom domain.
+- Build `dist/` using `npm run build` and deploy the `dist` folder. Ensure root paths in `manifest.webmanifest` account for repository subpaths if not using a custom domain.
 
 ---
 

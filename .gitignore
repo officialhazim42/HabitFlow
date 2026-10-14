@@ -45,6 +45,7 @@ _temp_*
 *.tmp
 .cache/
 .parcel-cache/
+.wrangler/
 
 # Operating System Metadata
 .DS_Store

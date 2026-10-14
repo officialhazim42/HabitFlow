@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "build": "node build.js",
+    "deploy": "npm run build && wrangler deploy",
     "test": "node test_suite.js && node verify_pwa.js",
     "test:all": "node test_suite.js && node verify_pwa.js && node verify_dashboard_logic.js && node verify_full_integration.js && node verify_advanced_features.js && node test_interactive_guide.js",
     "icons": "node generate_pwa_icons.js"
@@ -19,5 +21,8 @@
     "productivity",
     "offline-first"
   ],
-  "author": "Hazim Bashir"
+  "author": "Hazim Bashir",
+  "devDependencies": {
+    "wrangler": "^4.151.0"
+  }
 }
